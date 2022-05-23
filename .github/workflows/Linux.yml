@@ -1,0 +1,215 @@
+name: Linux
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+
+env:
+  QT_VERSION: 6.3.0
+  CMAKE_VERSION: 3.22.3
+  NINJA_VERSION: 1.10.22
+
+jobs:
+  build:
+    name: ${{ matrix.os.name }} ( ${{matrix.os.compiler }} ${{ matrix.kind }}, ${{ matrix.mode }} )
+    runs-on: ${{ matrix.os.value }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+        - {
+           name: "Ubuntu",
+           compiler: "GCC",
+           value: ubuntu-22.04,
+           triplet: "x64-linux"
+        }
+            
+        kind: [static, shared]
+        mode: [release, debug, asan]
+    steps:
+        - name: Install apt deps
+          id: aptdeps
+          run: |
+            wget -qO - https://packages.lunarg.com/lunarg-signing-key-pub.asc | sudo apt-key add -
+            sudo wget -qO /etc/apt/sources.list.d/lunarg-vulkan-focal.list https://packages.lunarg.com/vulkan/lunarg-vulkan-focal.list
+            sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+            sudo add-apt-repository -y ppa:deadsnakes/ppa
+            sudo apt -q update
+            sudo apt -y install vulkan-sdk \
+              gcc \
+              g++ \
+              libxcb-util0-dev \
+              tar \
+              curl \
+              zip \
+              unzip \
+              libxcb-xinput-dev \
+              libwayland-dev \
+              libxkbcommon-dev \
+              libxkbcommon-x11-dev \
+              libxcb-randr0-dev \
+              libxcb1-dev \
+              libxcb-icccm4-dev \
+              libxcb-xkb-dev \
+              libxcb-keysyms1-dev \
+              libxcb-xfixes0-dev \
+              cmake \
+              meson \
+              ninja-build
+
+        - name: Install xmake
+          uses: xmake-io/github-action-setup-xmake@v1
+
+                            - name: Download Ninja and CMake
+      shell: cmake -P {0}
+      run: |
+        set(cmake_version "$ENV{CMAKE_VERSION}")
+        set(ninja_version "$ENV{NINJA_VERSION}")
+
+        if ("${{ runner.os }}" STREQUAL "Windows")
+          set(ninja_suffix "win.zip")
+          set(cmake_suffix "win64-x64.zip")
+          set(cmake_dir "cmake-${cmake_version}-win64-x64/bin")
+
+          if(EXISTS "${{ matrix.config.environment_script }}")
+              message(STATUS "${{ matrix.config.environment_script }} EXISTS !")
+          else()
+              message(FATAL "${{ matrix.config.environment_script }} NOT EXISTS !")
+          endif()
+          
+        elseif ("${{ runner.os }}" STREQUAL "Linux")
+          set(ninja_suffix "linux.zip")
+          set(cmake_suffix "Linux-x86_64.tar.gz")
+          set(cmake_dir "cmake-${cmake_version}-Linux-x86_64/bin")
+        elseif ("${{ runner.os }}" STREQUAL "macOS")
+          set(ninja_suffix "mac.zip")
+          set(cmake_suffix "Darwin-x86_64.tar.gz")
+          set(cmake_dir "cmake-${cmake_version}-Darwin-x86_64/CMake.app/Contents/bin")
+        endif()
+
+        set(ninja_url "https://github.com/ninja-build/ninja/releases/download/v${ninja_version}/ninja-${ninja_suffix}")
+        file(DOWNLOAD "${ninja_url}" ./ninja.zip SHOW_PROGRESS)
+        execute_process(COMMAND ${CMAKE_COMMAND} -E tar xvf ./ninja.zip)
+
+        set(cmake_url "https://github.com/Kitware/CMake/releases/download/v${cmake_version}/cmake-${cmake_version}-${cmake_suffix}")
+        file(DOWNLOAD "${cmake_url}" ./cmake.zip SHOW_PROGRESS)
+        execute_process(COMMAND ${CMAKE_COMMAND} -E tar xvf ./cmake.zip)
+
+        # Add to PATH environment variable
+        file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/${cmake_dir}" cmake_dir)
+        set(path_separator ":")
+        if ("${{ runner.os }}" STREQUAL "Windows")
+          set(path_separator ";")
+        endif()
+        file(APPEND "$ENV{GITHUB_PATH}" "$ENV{GITHUB_WORKSPACE}${path_separator}${cmake_dir}")
+
+        if (NOT "${{ runner.os }}" STREQUAL "Windows")
+          execute_process(
+            COMMAND chmod +x ninja
+            COMMAND chmod +x ${cmake_dir}/cmake
+          )
+        endif()
+        
+    - name: Download Qt
+      id: qt
+      shell: cmake -P {0}
+      run: |
+        set(qt_version "$ENV{QT_VERSION}")
+
+        string(REGEX MATCH "^[0-9]+" qt_version_major "${qt_version}")
+        string(REPLACE "." "" qt_version_dotless "${qt_version}")
+        if ("${{ runner.os }}" STREQUAL "Windows")
+          set(url_os "windows_x86")
+          set(qt_package_arch_suffix "win64_msvc2019_64")
+          set(qt_dir_prefix "${qt_version}/msvc2019_64")
+          set(qt_package_suffix "-Windows-Windows_10_21H2-MSVC2019-Windows-Windows_10_21H2-X86_64")
+        elseif ("${{ runner.os }}" STREQUAL "Linux")
+          set(url_os "linux_x64")
+          set(qt_package_arch_suffix "gcc_64")
+          set(qt_dir_prefix "${qt_version}/gcc_64")
+          if("${qt_version_major}" STREQUAL "5")
+            set(qt_package_suffix "-Linux-RHEL_7_6-GCC-Linux-RHEL_7_6-X86_64")
+          else()
+            set(qt_package_suffix "-Linux-RHEL_8_4-GCC-Linux-RHEL_8_4-X86_64")
+          endif()
+        elseif ("${{ runner.os }}" STREQUAL "macOS")
+          set(url_os "mac_x64")
+          set(qt_package_arch_suffix "clang_64")
+          if("${qt_version_major}" STREQUAL "5")
+            set(qt_dir_prefix "${qt_version}/clang_64")
+            set(qt_package_suffix "-MacOS-MacOS_10_13-Clang-MacOS-MacOS_10_13-X86_64")
+          else()
+            set(qt_dir_prefix "${qt_version}/macos")
+            set(qt_package_suffix "-MacOS-MacOS_12-Clang-MacOS-MacOS_12-X86_64-ARM64")
+          endif()
+        endif()
+
+        set(qt_base_url "https://download.qt.io/online/qtsdkrepository/${url_os}/desktop/qt${qt_version_major}_${qt_version_dotless}")
+        file(DOWNLOAD "${qt_base_url}/Updates.xml" ./Updates.xml SHOW_PROGRESS)
+
+        file(READ ./Updates.xml updates_xml)
+        string(REGEX MATCH "<Name>qt.qt${qt_version_major}.*<Version>([0-9+-.]+)</Version>" updates_xml_output "${updates_xml}")
+        set(qt_package_version ${CMAKE_MATCH_1})
+
+        file(MAKE_DIRECTORY qt)
+
+        # Save the path for other steps
+        file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/qt/${qt_dir_prefix}" qt_dir)
+        message("::set-output name=qt_dir::${qt_dir}")
+
+        message("Downloading Qt to ${qt_dir}")
+        function(downloadAndExtract url archive)
+          message("Downloading ${url}")
+          file(DOWNLOAD "${url}" ./${archive} SHOW_PROGRESS)
+          execute_process(COMMAND ${CMAKE_COMMAND} -E tar xvf ../${archive} WORKING_DIRECTORY qt)
+        endfunction()
+
+        foreach(package qtbase qtdeclarative)
+          downloadAndExtract(
+            "${qt_base_url}/qt.qt${qt_version_major}.${qt_version_dotless}.${qt_package_arch_suffix}/${qt_package_version}${package}${qt_package_suffix}.7z"
+            ${package}.7z
+          )
+        endforeach()
+
+        if("${qt_version_major}" STREQUAL "6")
+          foreach(package qt5compat qtshadertools)
+            downloadAndExtract(
+              "${qt_base_url}/qt.qt6.${qt_version_dotless}.${package}.${qt_package_arch_suffix}/${qt_package_version}${package}${qt_package_suffix}.7z"
+              ${package}.7z
+            )
+          endforeach()
+        endif()
+
+        # uic depends on libicu56.so
+        if ("${{ runner.os }}" STREQUAL "Linux")
+          downloadAndExtract(
+            "${qt_base_url}/qt.qt${qt_version_major}.${qt_version_dotless}.${qt_package_arch_suffix}/${qt_package_version}icu-linux-Rhel7.2-x64.7z"
+            icu.7z
+          )
+        endif()
+
+        - name: Checkout
+          uses: actions/checkout@v2
+          with:
+            fetch-depth: 0
+            
+        - name: Configure & Build
+          id: confandbuild
+          run: |
+            xmake f --unity_build=y -v --yes -m ${{ matrix.mode }} -k ${{ matrix.kind }} --qt=${{ steps.qt.outputs.qt_dir }}
+            xmake b -v
+
+        - name: Install
+          id: install
+          run: |
+            xmake install -v --installdir="${{ runner.workspace }}/qtquick-controls2-winui3-theme-output"
+
+        - name: Upload artifacts
+          id: upload
+          uses: actions/upload-artifact@v1
+          with:
+            name: ${{ matrix.os.name }}-${{ matrix.os.compiler }}-${{ matrix.kind }}-${{ matrix.mode }}
+            path: ${{ runner.workspace }}/qtquick-controls2-winui3-theme-output
+ 
