@@ -23,10 +23,6 @@ jobs:
             compiler: MSVC
             value: windows-latest
             triplet: x64-windows
-          - name: Windows
-            compiler: MinGW
-            value: windows-latest
-            triplet: x64-windows
         kind:
           - shared
         mode:
@@ -36,10 +32,8 @@ jobs:
     steps:
       - name: Install msvc
         uses: ilammy/msvc-dev-cmd@v1
-
       - name: Install xmake
         uses: xmake-io/github-action-setup-xmake@v1
-
       - name: Download Ninja and CMake
         shell: cmake -P {0}
         run: |
@@ -124,7 +118,6 @@ jobs:
               )
             endforeach()
           endif()
-
       - name: Checkout
         uses: actions/checkout@v2
         with:
@@ -134,21 +127,8 @@ jobs:
         run: |
           $VS_RUNTIME = "MD"
 
-          if("${{ matrix.os.compiler }}" -eq "MinGW") {
-            xrepo install --yes llvm-mingw
-            $MINGW_INSTALL_DIR = xrepo info llvm-mingw | Out-String
-            $MINGW_INSTALL_DIR -match 'installdir.+'
-            $Matches[0] -match '(C.+)'
-            $MINGW_INSTALL_DIR = $Matches[0]
-            $MINGW_INSTALL_DIR = $MINGW_INSTALL_DIR -replace '\x1b\[[0-9;]*m','' -replace "`n","" -replace "`r",""
-            xmake g --mingw="$MINGW_INSTALL_DIR"
-
-            xmake f --unity_build=y -v --yes -m ${{ matrix.mode }} -k ${{ matrix.kind }} -p mingw --qt=${{ steps.qt.outputs.qt_dir }}
-          } else {
-            xmake f --unity_build=y -v --yes -m ${{ matrix.mode }} -k ${{ matrix.kind }} --vs_runtime=$VS_RUNTIME --qt=${{ steps.qt.outputs.qt_dir }}
-          }
+          xmake f -v --yes -m ${{ matrix.mode }} -k ${{ matrix.kind }} --vs_runtime=$VS_RUNTIME --qt=${{ steps.qt.outputs.qt_dir }}
           xmake b -v
-
       - name: Install
         id: install
         run: |
