@@ -154,6 +154,36 @@ inline QColor WinUI3Style::subtleFillColorDisabled() const noexcept {
 
 /////////////////////////////////////
 /////////////////////////////////////
+inline QColor WinUI3Style::controlAltFillColorTransparent() const noexcept {
+    return systemColor(SystemColor::ControlAltFillColorTransparent);
+}
+
+/////////////////////////////////////
+/////////////////////////////////////
+inline QColor WinUI3Style::controlAltFillColorSecondary() const noexcept {
+    return systemColor(SystemColor::ControlAltFillColorSecondary);
+}
+
+/////////////////////////////////////
+/////////////////////////////////////
+inline QColor WinUI3Style::controlAltFillColorTertiary() const noexcept {
+    return systemColor(SystemColor::ControlAltFillColorTertiary);
+}
+
+/////////////////////////////////////
+/////////////////////////////////////
+inline QColor WinUI3Style::controlAltFillColorQuarternary() const noexcept {
+    return systemColor(SystemColor::ControlAltFillColorQuarternary);
+}
+
+/////////////////////////////////////
+/////////////////////////////////////
+inline QColor WinUI3Style::controlAltFillColorDisabled() const noexcept {
+    return systemColor(SystemColor::ControlAltFillColorDisabled);
+}
+
+/////////////////////////////////////
+/////////////////////////////////////
 inline QColor WinUI3Style::controlOnImageFillColorDefault() const noexcept {
     return systemColor(SystemColor::ControlOnImageFillColorDefault);
 }

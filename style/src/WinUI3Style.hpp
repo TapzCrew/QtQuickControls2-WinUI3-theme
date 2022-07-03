@@ -62,6 +62,17 @@ class WinUI3Style: public QQuickAttachedObject {
     Q_PROPERTY(
         QColor subtleFillColorDisabled READ subtleFillColorDisabled NOTIFY paletteChanged FINAL)
 
+    Q_PROPERTY(QColor controlAltFillColorTransparent READ controlAltFillColorTransparent NOTIFY
+                   paletteChanged FINAL)
+    Q_PROPERTY(QColor controlAltFillColorSecondary READ controlAltFillColorSecondary NOTIFY
+                   paletteChanged FINAL)
+    Q_PROPERTY(QColor controlAltFillColorTertiary READ controlAltFillColorTertiary NOTIFY
+                   paletteChanged FINAL)
+    Q_PROPERTY(QColor controlAltFillColorQuarternary READ controlAltFillColorQuarternary NOTIFY
+                   paletteChanged FINAL)
+    Q_PROPERTY(QColor controlAltFillColorDisabled READ controlAltFillColorDisabled NOTIFY
+                   paletteChanged FINAL)
+
     Q_PROPERTY(QColor controlOnImageFillColorDefault READ controlOnImageFillColorDefault NOTIFY
                    paletteChanged FINAL)
     Q_PROPERTY(QColor controlOnImageFillColorSecondary READ controlOnImageFillColorSecondary NOTIFY
@@ -394,6 +405,12 @@ class WinUI3Style: public QQuickAttachedObject {
     QColor subtleFillColorSecondary() const noexcept;
     QColor subtleFillColorTertiary() const noexcept;
     QColor subtleFillColorDisabled() const noexcept;
+
+    QColor controlAltFillColorTransparent() const noexcept;
+    QColor controlAltFillColorSecondary() const noexcept;
+    QColor controlAltFillColorTertiary() const noexcept;
+    QColor controlAltFillColorQuarternary() const noexcept;
+    QColor controlAltFillColorDisabled() const noexcept;
 
     QColor controlOnImageFillColorDefault() const noexcept;
     QColor controlOnImageFillColorSecondary() const noexcept;

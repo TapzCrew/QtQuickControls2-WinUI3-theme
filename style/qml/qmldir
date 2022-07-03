@@ -16,3 +16,4 @@ ItemDelegate 1.0 ItemDelegate.qml
 ScrollBar 1.0 ScrollBar.qml
 ScrollIndicator 1.0 ScrollIndicator.qml
 ScrollView 1.0 ScrollView.qml
+CheckBox 1.0 CheckBox.qml

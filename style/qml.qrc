@@ -11,5 +11,6 @@
         <file>qml/ScrollBar.qml</file>
         <file>qml/ScrollIndicator.qml</file>
         <file>qml/ScrollView.qml</file>
+        <file>qml/CheckBox.qml</file>
     </qresource>
 </RCC>

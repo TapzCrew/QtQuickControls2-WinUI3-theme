@@ -457,7 +457,6 @@ QColor WinUI3Style::color(Color color) const {
 
     return qquickwinui3_accent_color(color);
 }
-
 /////////////////////////////////////
 /////////////////////////////////////
 QColor WinUI3Style::systemColor(SystemColor role) const {

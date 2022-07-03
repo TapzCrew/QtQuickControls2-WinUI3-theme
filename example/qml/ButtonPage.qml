@@ -60,6 +60,7 @@ Frame {
                     }
 
                     ColumnLayout {
+                    spacing: 16
                         Layout.fillWidth: true
                         Layout.rightMargin: 12
 

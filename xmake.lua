@@ -16,4 +16,5 @@ if is_mode("release") then
    set_symbols("hidden")
 else
    set_symbols("debug", "hidden")
+   add_defines("QT_QML_DEBUG")
 end
