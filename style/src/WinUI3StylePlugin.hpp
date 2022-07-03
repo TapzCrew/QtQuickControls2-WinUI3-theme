@@ -13,9 +13,17 @@ class WinUI3StylePlugin: public QQuickStylePlugin {
     Q_PLUGIN_METADATA(IID QQmlEngineExtensionInterface_iid)
 
   public:
-    WinUI3StylePlugin(QObject *parent = nullptr);
-    auto name() const noexcept -> QString override;
-    auto initializeTheme(QQuickTheme *theme) noexcept -> void override;
+    explicit WinUI3StylePlugin(QObject *parent = nullptr);
+    ~WinUI3StylePlugin() override;
+
+    WinUI3StylePlugin(const WinUI3StylePlugin &) = delete;
+    WinUI3StylePlugin &operator=(const WinUI3StylePlugin &) = delete;
+
+    WinUI3StylePlugin(WinUI3StylePlugin &&) noexcept = delete;
+    WinUI3StylePlugin &operator=(WinUI3StylePlugin &&) noexcept = delete;
+
+    QString name() const noexcept override;
+    void initializeTheme(QQuickTheme *theme) noexcept override;
 
   private:
     WinUI3Theme m_theme;

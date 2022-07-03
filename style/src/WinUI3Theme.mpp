@@ -7,7 +7,6 @@
 #include <QtCore/QObject>
 
 class QQuickTheme;
-class WinUI3Theme {
-public:
-  static auto initialize(QQuickTheme *theme) -> void;
+struct WinUI3Theme {
+    static void initialize(QQuickTheme *theme);
 };

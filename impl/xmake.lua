@@ -1,22 +1,28 @@
-target("WinUI3Style-example")
-    set_kind("binary")
-    add_rules("qt.quickapp")
+target("QQC2-WinUI3StyleImpl")
+    add_rules("qt.qmlplugin")
     set_languages("cxxlatest", "clatest")
-
     set_license("GPLv3")
 
+    add_headerfiles("src/*.hpp")
+
     add_files("src/*.cpp")
+    add_files("src/*.hpp")
     add_files("*.qrc")
+
+    set_values("qt.qmlplugin.import_name", "WinUI3Style.Impl")
+    set_values("qt.qmlplugin.qmldirfile", "qml/qmldir")
 
     add_frameworks("QtCore",
                    "QtGui",
-                   "QtQml",
                    "QtQuick",
-                   "QtQuickControls2")
+                   "QtQml")
+
+    add_syslinks("dwmapi")
 
     if is_plat("windows") then
         set_runtimes(is_mode("debug") and "MDd" or "MD")
 
+        add_defines("NOMINMAX", "WIN32_LEAN_AND_MEAN", { public = true })
         add_defines("_CRT_SECURE_NO_WARNINGS")
         add_cxxflags("/bigobj", "/permissive-", "/Zc:__cplusplus", "/Zc:externConstexpr", "/Zc:inline", "/Zc:lambda", "/Zc:preprocessor", "/Zc:referenceBinding", "/Zc:strictStrings", "/Zc:throwingNew")
         add_cxflags("/w44062") -- Enable warning: switch case not handled

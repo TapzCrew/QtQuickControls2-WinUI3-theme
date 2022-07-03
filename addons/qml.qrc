@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/MicaApplicationWindow.qml</file>
+        <file>qml/FluentSystemIcons.js</file>
+        <file>qml/MainStackView.qml</file>
+    </qresource>
+</RCC>

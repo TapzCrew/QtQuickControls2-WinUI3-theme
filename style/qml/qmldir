@@ -1,0 +1,18 @@
+module WinUI3Style
+
+plugin QQC2-WinUI3Style
+classname WinUI3StylePlugin
+depends WinUI3StylePluginImpl auto
+
+prefer :/qml/
+Button 1.0 Button.qml
+Pane 1.0 Pane.qml
+Frame 1.0 Frame.qml
+Label 1.0 Label.qml
+ToolButton 1.0 ToolButton.qml
+Drawer 1.0 Drawer.qml
+StackView 1.0 StackView.qml
+ItemDelegate 1.0 ItemDelegate.qml
+ScrollBar 1.0 ScrollBar.qml
+ScrollIndicator 1.0 ScrollIndicator.qml
+ScrollView 1.0 ScrollView.qml

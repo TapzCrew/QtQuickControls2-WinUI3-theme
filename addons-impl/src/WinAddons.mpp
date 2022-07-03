@@ -1,0 +1,135 @@
+// Copyright (C) 2022 Arthur LAURENT <arthur.laurent4@gmail.com>
+// This file is subject to the license terms in the LICENSE file
+// found in the top-level of this distribution
+
+#pragma once
+
+#include <QtCore/QLibrary>
+#include <QtGui/qwindowdefs.h>
+
+#include <windows.h>
+
+#include <Uxtheme.h>
+
+class QWindow;
+class WinAddons {
+  public:
+    struct Version {
+        DWORD major;
+        DWORD minor;
+        DWORD build_number;
+    };
+
+    WinAddons(HWND window);
+    ~WinAddons();
+
+    WinAddons(const WinAddons &) = delete;
+    auto operator=(const WinAddons &) -> WinAddons & = delete;
+
+    WinAddons(WinAddons &&) noexcept = delete;
+    auto operator=(WinAddons &&) noexcept -> WinAddons & = delete;
+
+    auto setMicaEnabled(bool enabled) -> void;
+
+    [[nodiscard]] auto isDarkModeSupported() const noexcept -> bool;
+
+    [[nodiscard]] auto isDarkModeEnabled() const noexcept -> bool;
+    auto setDarkModeEnabled(bool enabled) -> void;
+
+    [[nodiscard]] auto isSystemDarkModeEnabled() const noexcept -> bool;
+
+    [[nodiscard]] auto windowsVersion() const noexcept -> const Version &;
+
+    [[nodiscard]] auto handle() const noexcept -> HWND;
+
+  private:
+    enum class ImmersiveHcCacheMode { IchmUseCachedValue = 0, IhcmRefresh };
+
+    enum class PreferredAppMode { Default = 0, AllowDark, ForceDark, ForceLight, Max };
+
+    enum class WindowCompositionAttrib {
+        Undefined                   = 0,
+        NcRenderingEnabled          = 1,
+        NcRenderingPolicy           = 2,
+        TransitionsForceDisabled    = 3,
+        AllowNcPaint                = 4,
+        CaptionButtonBounds         = 5,
+        NonClientRtlLayout          = 6,
+        ForceIconicRepresentation   = 7,
+        ExtendedFrameBounds         = 8,
+        HasIconicBitmap             = 9,
+        ThemeAttributes             = 10,
+        NcRenderingExiled           = 11,
+        NcAdornmentInfo             = 12,
+        ExcludedFromLivePreview     = 13,
+        VideoOverlayActive          = 14,
+        ForceActiveWindowAppearance = 15,
+        DisallowPeek                = 16,
+        Cloak                       = 17,
+        Cloaked                     = 18,
+        AccentPolicy                = 19,
+        FreezeRepresentation        = 20,
+        EverUncloaked               = 21,
+        VisualOwner                 = 22,
+        Holographic                 = 23,
+        ExcludedFromDda             = 24,
+        PassiveUpdateMode           = 25,
+        UseDarkModeColors           = 26,
+        Last                        = 27
+    };
+
+    struct WindowCompositionAttribData {
+        WindowCompositionAttrib Attrib;
+        PVOID pvData;
+        SIZE_T cbData;
+    };
+
+    using fnRtlGetNtVersionNumbers = void(WINAPI *)(LPDWORD major, LPDWORD minor, LPDWORD build);
+    using fnSetWindowCompositionAttribute        = bool(WINAPI *)(HWND hWnd,
+                                                           WindowCompositionAttribData *);
+    using fnShouldAppsUseDarkMode                = bool(WINAPI *)();
+    using fnAllowDarkModeForWindow               = bool(WINAPI *)(HWND hWnd, bool allow);
+    using fnAllowDarkModeForApp                  = bool(WINAPI *)(bool allow);
+    using fnFlushMenuThemes                      = void(WINAPI *)();
+    using fnRefreshImmersiveColorPolicyState     = void(WINAPI *)();
+    using fnIsDarkModeAllowedForWindow           = bool(WINAPI *)(HWND hWnd);
+    using fnGetIsImmersiveColorUsingHighContrast = bool(WINAPI *)(ImmersiveHcCacheMode mode);
+    using fnOpenNcThemeData         = HTHEME(WINAPI *)(HWND hWnd, LPCWSTR pszClassList);
+    using fnShouldSystemUseDarkMode = bool(WINAPI *)();
+    using fnSetPreferredAppMode     = PreferredAppMode(WINAPI *)(PreferredAppMode appMode);
+    using fnIsDarkModeAllowedForApp = bool(WINAPI *)();
+
+    auto loadFunctions() -> void;
+    auto allowDarkMode(bool allow) -> void;
+
+    HWND m_handle;
+
+    QLibrary m_ntdll;
+    QLibrary m_user32;
+    QLibrary m_uxtheme;
+
+    Version m_windows_version;
+
+    bool m_is_dark_mode_supported;
+    bool m_is_dark_mode_enabled;
+    bool m_is_mica_supported;
+
+    fnRtlGetNtVersionNumbers m_RtlGetNtVersionNumbers = nullptr;
+
+    fnAllowDarkModeForApp m_AllowDarkModeForApp       = nullptr;
+    fnSetPreferredAppMode m_SetPreferredAppMode       = nullptr;
+    fnAllowDarkModeForWindow m_AllowDarkModeForWindow = nullptr;
+
+    fnShouldAppsUseDarkMode m_ShouldAppsUseDarkMode           = nullptr;
+    fnIsDarkModeAllowedForWindow m_IsDarkModeAllowedForWindow = nullptr;
+    fnIsDarkModeAllowedForApp m_IsDarkModeAllowedForApp       = nullptr;
+    fnShouldSystemUseDarkMode m_ShouldSystemsUseDarkMode      = nullptr;
+
+    fnRefreshImmersiveColorPolicyState m_RefreshImmersiveColorPolicyState         = nullptr;
+    fnGetIsImmersiveColorUsingHighContrast m_GetIsImmersiveColorUsingHighContrast = nullptr;
+    fnFlushMenuThemes m_FlushMenuThemes                                           = nullptr;
+    fnOpenNcThemeData m_OpenNcThemeData                                           = nullptr;
+    fnSetWindowCompositionAttribute m_SetWindowCompositionAttribute               = nullptr;
+};
+
+#include "WinAddons.inl"

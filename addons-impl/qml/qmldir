@@ -1,0 +1,9 @@
+module WinUI3Style.Addons.Impl
+
+plugin QQC2-WinUI3StyleAddonsImpl
+classname WinUI3StylePluginAddonsImpl
+depends WinUI3StylePlugin auto
+depends WinUI3StylePluginImpl auto
+
+prefer :/qml/
+ChromeButton 1.0 ChromeButton.qml

@@ -1,8 +1,0 @@
-module org.tapzcrew.WinUI3Style
-
-plugin WinUI3Style
-classname WinUI3StylePlugin
-
-import QtQuick.Controls.Basic auto
-prefer :/qml/
-Button 6.3 Button.qml

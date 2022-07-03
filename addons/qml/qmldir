@@ -1,0 +1,13 @@
+module WinUI3Style.Addons
+
+plugin QQC2-WinUI3StyleAddons
+typeinfo plugins.qmltypes
+
+classname WinUI3StylePluginAddons
+depends WinUI3StylePluginAddonsImpl auto
+depends WinUI3StylePlugin auto
+depends WinUI3StylePluginImpl auto
+
+prefer :/qml/
+MicaApplicationWindow 1.0 MicaApplicationWindow.qml
+MainStackView 1.0 MainStackView.qml

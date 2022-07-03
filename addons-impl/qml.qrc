@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>qml/Button.qml</file>
+        <file>qml/ChromeButton.qml</file>
     </qresource>
 </RCC>

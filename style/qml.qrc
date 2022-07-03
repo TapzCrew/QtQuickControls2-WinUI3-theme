@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/Button.qml</file>
+        <file>qml/Frame.qml</file>
+        <file>qml/Pane.qml</file>
+        <file>qml/Label.qml</file>
+        <file>qml/ToolButton.qml</file>
+        <file>qml/Drawer.qml</file>
+        <file>qml/StackView.qml</file>
+        <file>qml/ItemDelegate.qml</file>
+        <file>qml/ScrollBar.qml</file>
+        <file>qml/ScrollIndicator.qml</file>
+        <file>qml/ScrollView.qml</file>
+    </qresource>
+</RCC>

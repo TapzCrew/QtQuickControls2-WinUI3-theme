@@ -1,0 +1,7 @@
+module WinUI3Style.Impl
+
+plugin QQC2-WinUI3StyleImpl
+classname WinUI3StylePluginImpl
+
+prefer :/qml/
+Triangle 1.0 Triangle.qml

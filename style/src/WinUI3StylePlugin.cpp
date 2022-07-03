@@ -5,26 +5,31 @@
 #include <QtCore/QString>
 #include <QtQuickTemplates2/private/qquicktheme_p.h>
 
+#include "WinUI3Style.hpp"
 #include "WinUI3StylePlugin.hpp"
-#include "WinUI3Theme.mpp"
 
-extern auto qml_register_types_org_tapzcrew_win32() -> void;
-Q_GHS_KEEP_REFERENCE(qml_register_types_org_tapzcrew_win32);
+void qml_register_types_WinUI3Style();
 
 /////////////////////////////////////
 /////////////////////////////////////
 WinUI3StylePlugin::WinUI3StylePlugin(QObject *parent) : QQuickStylePlugin { parent } {
-    [[maybe_unused]] volatile auto registration = &qml_register_types_org_tapzcrew_win32;
+    [[maybe_unused]] volatile auto registration = &qml_register_types_WinUI3Style;
 }
 
 /////////////////////////////////////
 /////////////////////////////////////
-auto WinUI3StylePlugin::name() const noexcept -> QString {
-    return QStringLiteral("WinUI3");
+WinUI3StylePlugin::~WinUI3StylePlugin() = default;
+
+/////////////////////////////////////
+/////////////////////////////////////
+QString WinUI3StylePlugin::name() const noexcept {
+    return QStringLiteral("WinUI3Style");
 }
 
 /////////////////////////////////////
 /////////////////////////////////////
-auto WinUI3StylePlugin::initializeTheme(QQuickTheme *theme) noexcept -> void {
+void WinUI3StylePlugin::initializeTheme(QQuickTheme *theme) noexcept {
+    WinUI3Style::initGlobals();
+
     m_theme.initialize(theme);
 }

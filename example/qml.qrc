@@ -1,5 +1,9 @@
 <RCC>
     <qresource prefix="/">
         <file>qml/Main.qml</file>
+        <file>qml/ButtonPage.qml</file>
+        <file>qml/MainPage.qml</file>
+        <file>qml/CheckBoxPage.qml</file>
+        <file>qml/FramePage.qml</file>
     </qresource>
 </RCC>

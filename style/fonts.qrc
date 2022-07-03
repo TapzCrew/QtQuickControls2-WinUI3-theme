@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/">
+        <file>fonts/SegoeIcons.ttf</file>
+        <file>fonts/segoeui.ttf</file>
+        <file>fonts/segoeuib.ttf</file>
+        <file>fonts/segoeuii.ttf</file>
+        <file>fonts/segoeuil.ttf</file>
+        <file>fonts/segoeuisl.ttf</file>
+        <file>fonts/segoeuiz.ttf</file>
+        <file>fonts/seguibl.ttf</file>
+        <file>fonts/seguibli.ttf</file>
+        <file>fonts/seguiemj.ttf</file>
+        <file>fonts/seguihis.ttf</file>
+        <file>fonts/seguili.ttf</file>
+        <file>fonts/seguisb.ttf</file>
+        <file>fonts/seguisbi.ttf</file>
+        <file>fonts/seguisli.ttf</file>
+        <file>fonts/seguisym.ttf</file>
+        <file>fonts/SegUIVar.ttf</file>
+    </qresource>
+</RCC>

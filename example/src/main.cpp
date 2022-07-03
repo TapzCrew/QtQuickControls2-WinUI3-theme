@@ -4,16 +4,27 @@
 
 #include <QtGui/QGuiApplication>
 #include <QtQml/QQmlApplicationEngine>
+#include <QtQuick/QQuickWindow>
 #include <QtQuickControls2/QQuickStyle>
 
-int main(int argc, char *argv[]) {
+#include <iostream>
+
+auto main(int argc, char *argv[]) -> int {
     auto app = QGuiApplication { argc, argv };
+
+    auto format = QSurfaceFormat::defaultFormat();
+    format.setAlphaBufferSize(8);
+
+    QSurfaceFormat::setDefaultFormat(format);
+
+    QQuickWindow::setDefaultAlphaBuffer(true);
 
     auto engine = QQmlApplicationEngine {};
 
-    const auto url = QUrl { u"qrc:/qml/Main.qml"_qs };
+    const auto url = QUrl { u"qrc:///qml/Main.qml"_qs };
 
-    // QQuickStyle::setStyle("WinUI3");
+    QQuickWindow::setDefaultAlphaBuffer(true);
+    QQuickStyle::setStyle("WinUI3Style");
     QObject::connect(
         &engine,
         &QQmlApplicationEngine::objectCreated,
