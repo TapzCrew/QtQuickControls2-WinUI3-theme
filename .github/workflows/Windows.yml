@@ -28,7 +28,6 @@ jobs:
             value: windows-latest
             triplet: x64-windows
         kind:
-          - static
           - shared
         mode:
           - release
@@ -37,15 +36,16 @@ jobs:
     steps:
       - name: Install msvc
         uses: ilammy/msvc-dev-cmd@v1
+
       - name: Install xmake
         uses: xmake-io/github-action-setup-xmake@v1
+
       - name: Download Ninja and CMake
         shell: cmake -P {0}
         run: |
           set(cmake_version "$ENV{CMAKE_VERSION}")
           set(ninja_version "$ENV{NINJA_VERSION}")
 
-          if ("${{ runner.os }}" STREQUAL "Windows")
             set(ninja_suffix "win.zip")
             set(cmake_suffix "win64-x64.zip")
             set(cmake_dir "cmake-${cmake_version}-win64-x64/bin")
@@ -56,16 +56,6 @@ jobs:
                 message(FATAL "${{ matrix.config.environment_script }} NOT EXISTS !")
             endif()
             
-          elseif ("${{ runner.os }}" STREQUAL "Linux")
-            set(ninja_suffix "linux.zip")
-            set(cmake_suffix "Linux-x86_64.tar.gz")
-            set(cmake_dir "cmake-${cmake_version}-Linux-x86_64/bin")
-          elseif ("${{ runner.os }}" STREQUAL "macOS")
-            set(ninja_suffix "mac.zip")
-            set(cmake_suffix "Darwin-x86_64.tar.gz")
-            set(cmake_dir "cmake-${cmake_version}-Darwin-x86_64/CMake.app/Contents/bin")
-          endif()
-
           set(ninja_url "https://github.com/ninja-build/ninja/releases/download/v${ninja_version}/ninja-${ninja_suffix}")
           file(DOWNLOAD "${ninja_url}" ./ninja.zip SHOW_PROGRESS)
           execute_process(COMMAND ${CMAKE_COMMAND} -E tar xvf ./ninja.zip)
@@ -76,10 +66,7 @@ jobs:
 
           # Add to PATH environment variable
           file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/${cmake_dir}" cmake_dir)
-          set(path_separator ":")
-          if ("${{ runner.os }}" STREQUAL "Windows")
             set(path_separator ";")
-          endif()
           file(APPEND "$ENV{GITHUB_PATH}" "$ENV{GITHUB_WORKSPACE}${path_separator}${cmake_dir}")
 
           if (NOT "${{ runner.os }}" STREQUAL "Windows")
@@ -96,32 +83,11 @@ jobs:
 
           string(REGEX MATCH "^[0-9]+" qt_version_major "${qt_version}")
           string(REPLACE "." "" qt_version_dotless "${qt_version}")
-          if ("${{ runner.os }}" STREQUAL "Windows")
+
             set(url_os "windows_x86")
             set(qt_package_arch_suffix "win64_msvc2019_64")
             set(qt_dir_prefix "${qt_version}/msvc2019_64")
             set(qt_package_suffix "-Windows-Windows_10_21H2-MSVC2019-Windows-Windows_10_21H2-X86_64")
-          elseif ("${{ runner.os }}" STREQUAL "Linux")
-            set(url_os "linux_x64")
-            set(qt_package_arch_suffix "gcc_64")
-            set(qt_dir_prefix "${qt_version}/gcc_64")
-            if("${qt_version_major}" STREQUAL "5")
-              set(qt_package_suffix "-Linux-RHEL_7_6-GCC-Linux-RHEL_7_6-X86_64")
-            else()
-              set(qt_package_suffix "-Linux-RHEL_8_4-GCC-Linux-RHEL_8_4-X86_64")
-            endif()
-          elseif ("${{ runner.os }}" STREQUAL "macOS")
-            set(url_os "mac_x64")
-            set(qt_package_arch_suffix "clang_64")
-
-            if("${qt_version_major}" STREQUAL "5")
-              set(qt_dir_prefix "${qt_version}/clang_64")
-              set(qt_package_suffix "-MacOS-MacOS_10_13-Clang-MacOS-MacOS_10_13-X86_64")
-            else()
-              set(qt_dir_prefix "${qt_version}/macos")
-              set(qt_package_suffix "-MacOS-MacOS_12-Clang-MacOS-MacOS_12-X86_64-ARM64")
-            endif()
-          endif()
 
           set(qt_base_url "https://download.qt.io/online/qtsdkrepository/${url_os}/desktop/qt${qt_version_major}_${qt_version_dotless}")
           file(DOWNLOAD "${qt_base_url}/Updates.xml" ./Updates.xml SHOW_PROGRESS)
@@ -159,13 +125,6 @@ jobs:
             endforeach()
           endif()
 
-          # uic depends on libicu56.so
-          if ("${{ runner.os }}" STREQUAL "Linux")
-            downloadAndExtract(
-              "${qt_base_url}/qt.qt${qt_version_major}.${qt_version_dotless}.${qt_package_arch_suffix}/${qt_package_version}icu-linux-Rhel7.2-x64.7z"
-              icu.7z
-            )
-          endif()
       - name: Checkout
         uses: actions/checkout@v2
         with:
@@ -174,9 +133,6 @@ jobs:
         id: confandbuild
         run: |
           $VS_RUNTIME = "MD"
-          if("${{ matrix.kind }}" -eq "static") {
-              $VS_RUNTIME = "MT"
-          }
 
           if("${{ matrix.os.compiler }}" -eq "MinGW") {
             xrepo install --yes llvm-mingw
@@ -187,11 +143,12 @@ jobs:
             $MINGW_INSTALL_DIR = $MINGW_INSTALL_DIR -replace '\x1b\[[0-9;]*m','' -replace "`n","" -replace "`r",""
             xmake g --mingw="$MINGW_INSTALL_DIR"
 
-            xmake f --unity_build=y -v --yes -m ${{ matrix.mode }} -k ${{ matrix.kind }} -p mingw --qt=${{ steps.qt.outputs.qt_dir }}}
+            xmake f --unity_build=y -v --yes -m ${{ matrix.mode }} -k ${{ matrix.kind }} -p mingw --qt=${{ steps.qt.outputs.qt_dir }}
           } else {
-            xmake f --unity_build=y -v --yes -m ${{ matrix.mode }} -k ${{ matrix.kind }} --vs_runtime=$VS_RUNTIME --qt=${{ steps.qt.outputs.qt_dir }
+            xmake f --unity_build=y -v --yes -m ${{ matrix.mode }} -k ${{ matrix.kind }} --vs_runtime=$VS_RUNTIME --qt=${{ steps.qt.outputs.qt_dir }}
           }
           xmake b -v
+
       - name: Install
         id: install
         run: |
