@@ -52,8 +52,6 @@ T.CheckBox {
                 else if (control.checkState === Qt.PartiallyChecked)
                     return String.fromCodePoint(0xe73c)
 
-                console.log(control.checkState)
-
                 return ""
             }
 
@@ -74,8 +72,6 @@ T.CheckBox {
         font: control.font
         elide: Text.ElideRight
         verticalAlignment: Text.AlignVCenter
-
-        opacity: enabled ? 1.0 : 0.2
 
         color: internal.contentColor()
     }
