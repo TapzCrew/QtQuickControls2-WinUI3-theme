@@ -125,32 +125,8 @@ MicaApplicationWindow {
                 source: "qrc:/qml/FramePage.qml"
             }
             ListElement {
-                title: "Frame"
-                source: "qrc:/qml/FramePage.qml"
-            }
-            ListElement {
-                title: "Frame"
-                source: "qrc:/qml/FramePage.qml"
-            }
-            ListElement {
-                title: "Frame"
-                source: "qrc:/qml/FramePage.qml"
-            }
-            ListElement {
-                title: "Frame"
-                source: "qrc:/qml/FramePage.qml"
-            }
-            ListElement {
-                title: "Frame"
-                source: "qrc:/qml/FramePage.qml"
-            }
-            ListElement {
-                title: "Frame"
-                source: "qrc:/qml/FramePage.qml"
-            }
-            ListElement {
-                title: "Frame"
-                source: "qrc:/qml/FramePage.qml"
+                title: "Slider"
+                source: "qrc:/qml/SliderPage.qml"
             }
         }
 

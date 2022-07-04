@@ -149,7 +149,6 @@ T.ScrollBar {
                     SmoothedAnimation {
                         targets: [control.contentItem]
                         property: "width"
-                        from: internal.idleWidth
                         to: internal.hoveredWidth
                         velocity: 50
                     }

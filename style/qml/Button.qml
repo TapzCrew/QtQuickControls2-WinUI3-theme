@@ -22,6 +22,8 @@ T.Button {
 
     icon.color: internal.contentColor()
 
+    property bool useSystemFocusVisuals: true
+
     contentItem: IconLabel {
         clip: true
 

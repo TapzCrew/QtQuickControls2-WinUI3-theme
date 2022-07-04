@@ -13,12 +13,10 @@ Frame {
     bottomPadding: 0
 
     ColumnLayout {
-        id: main_layout
-
         anchors.fill: parent
 
         Label {
-            text: "Button"
+            text: "Slider"
             font.pixelSize: 28
             font.family: "Segoe UI Semibold"
         }
@@ -51,7 +49,7 @@ Frame {
                                     scroll_view.availableWidth)
 
                     Label {
-                        text: "Button presents a push-button that can be pushed or clicked by the user." + " Buttons are normally used to perform an action, or to answer a question."
+                        text: "Use a Slider when you want your users to be able to set defined, contiguous values (such as volume or brightness) or a range of discrete values (such as screen resolution settings)"
 
                         Layout.fillWidth: true
                         Layout.rightMargin: 12
@@ -64,7 +62,7 @@ Frame {
                         Layout.rightMargin: 12
 
                         Label {
-                            text: "A simple Button with text content."
+                            text: "A simple Slider"
 
                             font.family: "Segoe UI Semibold"
                             font.pixelSize: 20
@@ -76,16 +74,19 @@ Frame {
                             RowLayout {
                                 anchors.fill: parent
 
-                                Button {
-                                    text: "Button 1"
+                                Slider {
+                                    id: slider1
 
-                                    Layout.alignment: Qt.AlignVCenter
+                                    stepSize: 1
+                                    from: 0
+                                    to: 100
 
-                                    onClicked: label_btn_1.text = "Output:\nYou clicked: Button1"
+                                    onValueChanged: label_slider_1.text = "Output:\n".concat(
+                                                        value)
                                 }
 
                                 Label {
-                                    id: label_btn_1
+                                    id: label_slider_1
                                     text: "Output:"
 
                                     Layout.alignment: Qt.AlignRight
@@ -93,13 +94,12 @@ Frame {
                             }
                         }
                     }
-
                     ColumnLayout {
                         Layout.fillWidth: true
                         Layout.rightMargin: 12
 
                         Label {
-                            text: "A disabled Button with text content."
+                            text: "A Slider with range and steps specified."
 
                             font.family: "Segoe UI Semibold"
                             font.pixelSize: 20
@@ -111,23 +111,32 @@ Frame {
                             RowLayout {
                                 anchors.fill: parent
 
-                                Button {
-                                    text: "Button 2"
+                                Slider {
+                                    id: slider2
 
-                                    enabled: false
+                                    stepSize: 1
+                                    from: 500
+                                    to: 1000
 
-                                    Layout.alignment: Qt.AlignVCenter
+                                    onValueChanged: label_slider_2.text = "Output:\n".concat(
+                                                        value)
+                                }
+
+                                Label {
+                                    id: label_slider_2
+                                    text: "Output:"
+
+                                    Layout.alignment: Qt.AlignRight
                                 }
                             }
                         }
                     }
-
                     ColumnLayout {
                         Layout.fillWidth: true
                         Layout.rightMargin: 12
 
                         Label {
-                            text: "A Highlighted Button with text content."
+                            text: "A vertical Slider with range specified."
 
                             font.family: "Segoe UI Semibold"
                             font.pixelSize: 20
@@ -139,17 +148,23 @@ Frame {
                             RowLayout {
                                 anchors.fill: parent
 
-                                Button {
-                                    text: "Button 3"
-                                    highlighted: true
+                                Slider {
+                                    id: slider4
 
-                                    Layout.alignment: Qt.AlignVCenter
+                                    onValueChanged: label_slider_4.text = "Output:\n".concat(
+                                                        value)
 
-                                    onClicked: label_btn_2.text = "Output:\nYou clicked: Button3"
+                                    stepSize: 1
+                                    from: -50
+                                    to: 50
+
+                                    value: 0
+
+                                    orientation: Qt.Vertical
                                 }
 
                                 Label {
-                                    id: label_btn_2
+                                    id: label_slider_4
                                     text: "Output:"
 
                                     Layout.alignment: Qt.AlignRight
