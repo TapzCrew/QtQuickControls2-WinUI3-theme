@@ -75,7 +75,13 @@ jobs:
           function(downloadAndExtract url archive)
             message("Downloading ${url}")
             file(DOWNLOAD "${url}" ./${archive} SHOW_PROGRESS)
-            execute_process(COMMAND ${CMAKE_COMMAND} -E tar xvf ../${archive} WORKING_DIRECTORY ${qt_base_dir})
+            execute_process(COMMAND ${CMAKE_COMMAND} -E tar xvf ../${archive} WORKING_DIRECTORY ${qt_base_dir} RESULT_VARIABLE result)
+            if (NOT result EQUAL 0)
+              string(REGEX MATCH "FAILED:.*$" error_message "${output}")
+              string(REPLACE "\n" "%0A" error_message "${error_message}")
+              message("::error::${error_message}")
+              message(FATAL_ERROR "Build failed")
+            endif()
           endfunction()
 
           foreach(package qtbase qtdeclarative)
@@ -101,15 +107,34 @@ jobs:
               set(VS_RUNTIME "MDd")
           endif()
 
-          execute_process(COMMAND xmake f -vD --yes -m ${{ matrix.mode }} -k ${{ matrix.kind }} --vs_runtime=${VS_RUNTIME} --qt=qt)
-          execute_process(COMMAND xmake b -vD)
+          execute_process(COMMAND xmake f -vD --yes -m ${{ matrix.mode }} -k ${{ matrix.kind }} --vs_runtime=${VS_RUNTIME} --qt=qt RESULT_VARIABLE result)
+          if (NOT result EQUAL 0)
+            string(REGEX MATCH "FAILED:.*$" error_message "${output}")
+            string(REPLACE "\n" "%0A" error_message "${error_message}")
+            message("::error::${error_message}")
+            message(FATAL_ERROR "Build failed")
+          endif()
+
+          execute_process(COMMAND xmake b -vD RESULT_VARIABLE result)
+          if (NOT result EQUAL 0)
+            string(REGEX MATCH "FAILED:.*$" error_message "${output}")
+            string(REPLACE "\n" "%0A" error_message "${error_message}")
+            message("::error::${error_message}")
+            message(FATAL_ERROR "Build failed")
+          endif()
           
       - name: Install
         id: install
         shell: cmake -P {0}
         run: |
           file(MAKE_DIRECTORY qtquick-controls2-winui3-theme-output)
-          execute_process(COMMAND xmake install -vD --installdir=$ENV{GITHUB_WORKSPACE}/qtquick-controls2-winui3-theme-output)
+          execute_process(COMMAND xmake install -vD --installdir=$ENV{GITHUB_WORKSPACE}/qtquick-controls2-winui3-theme-output RESULT_VARIABLE result)
+          if (NOT result EQUAL 0)
+            string(REGEX MATCH "FAILED:.*$" error_message "${output}")
+            string(REPLACE "\n" "%0A" error_message "${error_message}")
+            message("::error::${error_message}")
+            message(FATAL_ERROR "Build failed")
+          endif()
           
       - name: Upload artifacts
         id: upload
