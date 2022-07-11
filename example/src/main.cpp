@@ -9,6 +9,21 @@
 
 #include <iostream>
 
+constexpr auto toString(QSGRendererInterface::GraphicsApi e) {
+    switch (e) {
+        case QSGRendererInterface::GraphicsApi::Unknown: return "Unknown";
+        case QSGRendererInterface::GraphicsApi::Software: return "Software";
+        case QSGRendererInterface::GraphicsApi::OpenVG: return "OpenVG";
+        case QSGRendererInterface::GraphicsApi::OpenGL: return "OpenGL";
+        case QSGRendererInterface::GraphicsApi::Direct3D11: return "Direct3D11";
+        case QSGRendererInterface::GraphicsApi::Vulkan: return "Vulkan";
+        case QSGRendererInterface::GraphicsApi::Metal: return "Metal";
+        case QSGRendererInterface::GraphicsApi::Null: return "Null";
+    }
+
+    return "";
+}
+
 auto main(int argc, char *argv[]) -> int {
     auto app = QGuiApplication { argc, argv };
 
@@ -35,6 +50,8 @@ auto main(int argc, char *argv[]) -> int {
         Qt::QueuedConnection);
 
     engine.load(url);
+
+    qDebug() << toString(QQuickWindow::graphicsApi());
 
     return app.exec();
 }
