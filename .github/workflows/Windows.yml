@@ -33,23 +33,30 @@ jobs:
     steps:
       - name: Install msvc
         uses: ilammy/msvc-dev-cmd@v1
+        
       - name: Install xmake
         uses: xmake-io/github-action-setup-xmake@v1
+
+      - name: Update xmake
+        shell: cmake -P {0}
+        run: |
+          execute_process(COMMAND xmake update -s dev)
+          
       - name: Download Ninja and CMake
         shell: cmake -P {0}
         run: |
           set(cmake_version "$ENV{CMAKE_VERSION}")
           set(ninja_version "$ENV{NINJA_VERSION}")
 
-            set(ninja_suffix "win.zip")
-            set(cmake_suffix "win64-x64.zip")
-            set(cmake_dir "cmake-${cmake_version}-win64-x64/bin")
+          set(ninja_suffix "win.zip")
+          set(cmake_suffix "win64-x64.zip")
+          set(cmake_dir "cmake-${cmake_version}-win64-x64/bin")
 
-            if(EXISTS "${{ matrix.config.environment_script }}")
-                message(STATUS "${{ matrix.config.environment_script }} EXISTS !")
-            else()
-                message(FATAL "${{ matrix.config.environment_script }} NOT EXISTS !")
-            endif()
+          if(EXISTS "${{ matrix.config.environment_script }}")
+              message(STATUS "${{ matrix.config.environment_script }} EXISTS !")
+          else()
+              message(FATAL "${{ matrix.config.environment_script }} NOT EXISTS !")
+          endif()
             
           set(ninja_url "https://github.com/ninja-build/ninja/releases/download/v${ninja_version}/ninja-${ninja_suffix}")
           file(DOWNLOAD "${ninja_url}" ./ninja.zip SHOW_PROGRESS)
@@ -70,6 +77,7 @@ jobs:
               COMMAND chmod +x ${cmake_dir}/cmake
             )
           endif()
+
       - name: Download Qt
         id: qt
         shell: cmake -P {0}
@@ -127,6 +135,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
+
       - name: Configure & Build
         id: confandbuild
         shell: cmake -P {0}
