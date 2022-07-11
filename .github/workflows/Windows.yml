@@ -95,7 +95,9 @@ jobs:
 
           # Save the path for other steps
           file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/qt/${qt_dir_prefix}" qt_dir)
+          file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/qt" qt_base_dir)
           message("::set-output name=qt_dir::${qt_dir}")
+          message("::set-output name=qt_base_dir::${qt_base_dir}")
           message("::set-output name=qt_dir_prefix::${qt_dir_prefix}")
 
           message("Downloading Qt to ${qt_dir}")
@@ -130,7 +132,7 @@ jobs:
         run: |
           $VS_RUNTIME = "MD"
 
-          xmake f -vD --yes -m ${{ matrix.mode }} -k ${{ matrix.kind }} --vs_runtime=$VS_RUNTIME --qt=${{ steps.qt.outputs.qt_dir }}
+          xmake f -vD --yes -m ${{ matrix.mode }} -k ${{ matrix.kind }} --vs_runtime=$VS_RUNTIME --qt=${{ steps.qt.outputs.qt_base_dir }}
           xmake b -vD
           
       - name: Install
