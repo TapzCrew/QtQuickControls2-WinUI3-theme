@@ -48,6 +48,8 @@ MicaWindow::MicaWindow(QWindow *parent)
         blockSignals(false);
     });
 
+    m_resize_frame_width = ::GetSystemMetrics(SM_CXBORDER);
+
     SetWindowPos(hwnd, nullptr, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOSIZE);
 }
 
@@ -147,11 +149,12 @@ auto MicaWindow::nativeEvent(const QByteArray &type, void *message, qintptr *res
         const auto actual_width  = rect.right - rect.left;
         const auto actual_height = rect.bottom - rect.top;
 
-        const auto is_top = mouse_position.y < (RESIZE_FRAME_WIDTH * pixel_ratio);
+        const auto is_top = mouse_position.y < (m_resize_frame_width * pixel_ratio);
         const auto is_bottom =
-            mouse_position.y > actual_height + (RESIZE_FRAME_WIDTH * pixel_ratio);
-        const auto is_left  = mouse_position.x < -(RESIZE_FRAME_WIDTH * pixel_ratio);
-        const auto is_right = mouse_position.x > actual_width + (RESIZE_FRAME_WIDTH * pixel_ratio);
+            mouse_position.y > actual_height + (m_resize_frame_width * pixel_ratio);
+        const auto is_left = mouse_position.x < -(m_resize_frame_width * pixel_ratio);
+        const auto is_right =
+            mouse_position.x > actual_width + (m_resize_frame_width * pixel_ratio);
 
         if (is_top && !m_maximized) {
             if (is_left) *result = HTTOPLEFT;

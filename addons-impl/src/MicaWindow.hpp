@@ -60,6 +60,8 @@ class MicaWindow: public QQuickApplicationWindow {
     bool m_title_bar_expanded;
     int m_title_bar_height;
 
+    int m_resize_frame_width;
+
     bool m_maximized;
 
     QColor m_explicit_color;
