@@ -90,15 +90,6 @@ jobs:
             d3dcompiler_47.7z
           )
 
-          downloadAndExtract(
-            "${qt_base_url}/qt.qt6.${qt_version_dotless}.addons.qtimageformats.${qt_package_arch_suffix}/${qt_package_version}meta.7z"
-            addons.qtimageformats.7z
-          )
-          downloadAndExtract(
-            "${qt_base_url}/qt.qt6.${qt_version_dotless}.addons.${qt_package_arch_suffix}/${qt_package_version}meta.7z"
-            addons.7z
-          )
-
           file(APPEND "$ENV{GITHUB_PATH}" "${qt_dir}/bin")
 
       - name: Configure & Build
