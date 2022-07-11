@@ -9,8 +9,8 @@ name: Windows
       - main
 env:
   QT_VERSION: 6.3.1
-  CMAKE_VERSION: 3.22.3
-  NINJA_VERSION: 1.10.2
+  CMAKE_VERSION: 3.22.5
+  NINJA_VERSION: 1.11.0
 jobs:
   build:
     name: ${{ matrix.os.name }} ( ${{matrix.os.compiler }} ${{ matrix.kind }}, ${{ matrix.mode }} )
@@ -35,17 +35,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Install msvc
-        uses: ilammy/msvc-dev-cmd@v1
-
-      - name: Install xmake
-        uses: xmake-io/github-action-setup-xmake@v1
-
-      - name: Update xmake
-        shell: cmake -P {0}
-        run: |
-          execute_process(COMMAND xmake update -s dev)
-          
       - name: Download Ninja and CMake
         shell: cmake -P {0}
         run: |
@@ -53,8 +42,8 @@ jobs:
           set(ninja_version "$ENV{NINJA_VERSION}")
 
           set(ninja_suffix "win.zip")
-          set(cmake_suffix "win64-x64.zip")
-          set(cmake_dir "cmake-${cmake_version}-win64-x64/bin")
+          set(cmake_suffix "windows-x86_64.zip")
+          set(cmake_dir "cmake-${cmake_version}-windows-x86_64/bin")
 
           set(ninja_url "https://github.com/ninja-build/ninja/releases/download/v${ninja_version}/ninja-${ninja_suffix}")
           file(DOWNLOAD "${ninja_url}" ./ninja.zip SHOW_PROGRESS)
@@ -69,6 +58,14 @@ jobs:
           set(path_separator ";")
           file(APPEND "$ENV{GITHUB_PATH}" "$ENV{GITHUB_WORKSPACE}${path_separator}${cmake_dir}")
 
+      - name: Install xmake
+        uses: xmake-io/github-action-setup-xmake@v1
+
+      - name: Update xmake
+        shell: cmake -P {0}
+        run: |
+          execute_process(COMMAND xmake update -s dev)
+          
       - name: Download Qt
         id: qt
         shell: cmake -P {0}
