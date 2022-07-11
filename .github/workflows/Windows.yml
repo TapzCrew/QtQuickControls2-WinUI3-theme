@@ -142,6 +142,9 @@ jobs:
         id: confandbuild
         shell: cmake -P {0}
         run: |
+          execute_process(COMMAND pwd)
+          execute_process(COMMAND dir)
+          
           set(VS_RUNTIME "MD")
           if(${{ matrix.mode}} STREQUAL "debug")
               set(VS_RUNTIME "MDd")
