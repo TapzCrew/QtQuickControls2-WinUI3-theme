@@ -39,7 +39,7 @@ jobs:
       - name: Update xmake
         shell: cmake -P {0}
         run: |
-          execute_process(COMMAND xmake update -s https://github.com/Arthapz/xmake.git#dev)
+          execute_process(COMMAND xmake update -s "https://github.com/Arthapz/xmake.git#dev")
           
       - name: Download Qt
         id: qt
