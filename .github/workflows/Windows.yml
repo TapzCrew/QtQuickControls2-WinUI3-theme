@@ -9,11 +9,9 @@ name: Windows
       - main
 env:
   QT_VERSION: 6.3.1
-  CMAKE_VERSION: 3.22.5
-  NINJA_VERSION: 1.11.0
 jobs:
   build:
-    name: ${{ matrix.os.name }} (${{matrix.os.compiler }} ${{ matrix.kind }}, ${{ matrix.mode }})
+    name: ${{ matrix.os.name }} (${{ matrix.os.compiler }} ${{ matrix.kind }}, ${{ matrix.mode }} )
     runs-on: ${{ matrix.os.value }}
     strategy:
       fail-fast: false
@@ -98,6 +96,8 @@ jobs:
               ${package}.7z
             )
           endforeach()
+
+          file(APPEND "$ENV{GITHUB_PATH}" "${qt_dir}/bin")
 
       - name: Configure & Build
         id: confandbuild
