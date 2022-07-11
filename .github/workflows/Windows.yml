@@ -125,4 +125,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: ${{ matrix.os.name }}-${{ matrix.os.compiler }}-${{ matrix.kind }}-${{ matrix.mode }}
-          path: ${{ runner.workspace }}/qtquick-controls2-winui3-theme-output
+          path: ./qtquick-controls2-winui3-theme-output
