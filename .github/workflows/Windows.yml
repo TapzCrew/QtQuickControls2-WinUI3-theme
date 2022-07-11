@@ -104,8 +104,7 @@ jobs:
           function(downloadAndExtract url archive)
             message("Downloading ${url}")
             file(DOWNLOAD "${url}" ./${archive} SHOW_PROGRESS)
-            execute_process(COMMAND ${CMAKE_COMMAND} -E tar xvf ../${archive} WORKING_DIRECTORY qt)
-            execute_process(COMMAND ls -lAh WORKING_DIRECTORY ${qt_dir})
+            execute_process(COMMAND ${CMAKE_COMMAND} -E tar xvf ../${archive} WORKING_DIRECTORY ${qt_base_dir})
           endfunction()
 
           foreach(package qtbase qtdeclarative)
@@ -129,16 +128,22 @@ jobs:
           fetch-depth: 0
       - name: Configure & Build
         id: confandbuild
+        shell: cmake -P {0}
         run: |
-          $VS_RUNTIME = "MD"
+          set(VS_RUNTIME "MD")
+          if(${{ matrix.mode}} STREQUAL "debug")
+              set(VS_RUNTIME "MDd")
+          endif()
 
-          xmake f -vD --yes -m ${{ matrix.mode }} -k ${{ matrix.kind }} --vs_runtime=$VS_RUNTIME --qt=${{ steps.qt.outputs.qt_base_dir }}
-          xmake b -vD
+          execute_process(COMMAND dir WORKING_DIRECTORY ${{ steps.qt.outputs.qt_base_dir }})
+          execute_process(COMMAND xmake f -vD --yes -m ${{ matrix.mode }} -k ${{ matrix.kind }} --vs_runtime=${VS_RUNTIME} --qt="${{ steps.qt.outputs.qt_base_dir }}")
+          execute_process(COMMAND xmake b -vD)
           
       - name: Install
         id: install
+        shell: cmake -P {0}
         run: |
-          xmake install -v --installdir="${{ runner.workspace }}/qtquick-controls2-winui3-theme-output"
+          execute_process(COMMAND xmake install -v --installdir="${{ runner.workspace }}/qtquick-controls2-winui3-theme-output")
       - name: Upload artifacts
         id: upload
         uses: actions/upload-artifact@v1
