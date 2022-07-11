@@ -94,7 +94,7 @@ jobs:
           file(MAKE_DIRECTORY qt)
 
           # Save the path for other steps
-          file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/qt/" qt_dir)
+          file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/qt/${qt_dir_prefix}" qt_dir)
           message("::set-output name=qt_dir::${qt_dir}")
           message("::set-output name=qt_dir_prefix::${qt_dir_prefix}")
 
@@ -102,7 +102,7 @@ jobs:
           function(downloadAndExtract url archive)
             message("Downloading ${url}")
             file(DOWNLOAD "${url}" ./${archive} SHOW_PROGRESS)
-            execute_process(COMMAND ${CMAKE_COMMAND} -E tar xvf ../${archive} WORKING_DIRECTORY ${qt_dir})
+            execute_process(COMMAND ${CMAKE_COMMAND} -E tar xvf ../${archive} WORKING_DIRECTORY qt)
             execute_process(COMMAND ls -lAh WORKING_DIRECTORY ${qt_dir})
           endfunction()
 
@@ -130,7 +130,7 @@ jobs:
         run: |
           $VS_RUNTIME = "MD"
 
-          xmake f -vD --yes -m ${{ matrix.mode }} -k ${{ matrix.kind }} --vs_runtime=$VS_RUNTIME --qt=${{ steps.qt.outputs.qt_dir }}/${{ steps.qt.outputs.qt_dir_prefix }}
+          xmake f -vD --yes -m ${{ matrix.mode }} -k ${{ matrix.kind }} --vs_runtime=$VS_RUNTIME --qt=${{ steps.qt.outputs.qt_dir }}
           xmake b -vD
           
       - name: Install
