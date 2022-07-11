@@ -109,7 +109,7 @@ T.Slider {
         },
         State {
             name: "hovered"
-            when: control.hovered
+            when: control.hovered && !control.pressed
         },
         State {
             name: "pushed"
@@ -121,7 +121,7 @@ T.Slider {
         Transition {
             to: "idle"
 
-            SmoothedAnimation {
+            NumberAnimation {
                 targets: [internal]
                 property: "innerCircleWidth"
 
@@ -132,7 +132,7 @@ T.Slider {
                 easing.type: Easing.OutQuad
             }
 
-            SmoothedAnimation {
+            NumberAnimation {
                 targets: [internal]
                 property: "innerCircleHeight"
 
@@ -142,7 +142,7 @@ T.Slider {
 
                 easing.type: Easing.OutQuad
             }
-            SmoothedAnimation {
+            NumberAnimation {
                 targets: [internal]
                 property: "innerCircleRadius"
 
@@ -156,7 +156,7 @@ T.Slider {
         Transition {
             to: "hovered"
 
-            SmoothedAnimation {
+            NumberAnimation {
                 targets: [internal]
                 property: "innerCircleWidth"
 
@@ -166,7 +166,7 @@ T.Slider {
 
                 easing.type: Easing.OutQuad
             }
-            SmoothedAnimation {
+            NumberAnimation {
                 targets: [internal]
                 property: "innerCircleHeight"
 
@@ -176,7 +176,7 @@ T.Slider {
 
                 easing.type: Easing.OutQuad
             }
-            SmoothedAnimation {
+            NumberAnimation {
                 targets: [internal]
                 property: "innerCircleRadius"
 
@@ -190,7 +190,7 @@ T.Slider {
         Transition {
             to: "pushed"
 
-            SmoothedAnimation {
+            NumberAnimation {
                 targets: [internal]
                 property: "innerCircleWidth"
 
@@ -200,7 +200,7 @@ T.Slider {
 
                 easing.type: Easing.OutQuad
             }
-            SmoothedAnimation {
+            NumberAnimation {
                 targets: [internal]
                 property: "innerCircleHeight"
 
@@ -210,7 +210,7 @@ T.Slider {
 
                 easing.type: Easing.OutQuad
             }
-            SmoothedAnimation {
+            NumberAnimation {
                 targets: [internal]
                 property: "innerCircleRadius"
 
@@ -228,9 +228,9 @@ T.Slider {
 
         readonly property real innerCircleIdleDiameter: 10
         readonly property real innerCircleHoveredDiameter: 14
-        readonly property real innerCirclePushedDiameter: 10
+        readonly property real innerCirclePushedDiameter: 8
 
-        readonly property real innerCircleDuration: 2000
+        readonly property real innerCircleDuration: 150
 
         property real innerCircleWidth: innerCircleIdleDiameter
         property real innerCircleHeight: innerCircleIdleDiameter
