@@ -12,6 +12,8 @@ target("QQC2-WinUI3StyleImpl")
     set_values("qt.qmlplugin.import_name", "WinUI3Style.Impl")
     set_values("qt.qmlplugin.qmldirfile", "qml/qmldir")
 
+    add_installfiles("qml/qmldir", {prefixdir = "bin/WinUI3Style/Impl"})
+
     add_frameworks("QtCore",
                    "QtGui",
                    "QtQuick",
@@ -29,3 +31,7 @@ target("QQC2-WinUI3StyleImpl")
         add_cxflags("/wd4251") -- Disable warning: class needs to have dll-interface to be used by clients of class blah blah blah
         add_cxflags("/wd4297")
     end
+
+    after_install(function(target)
+        os.mv(path.join(target:installdir(), "bin/QQC2-WinUI3StyleImpl.dll"), path.join(target:installdir(), "bin/WinUI3Style/Impl/QQC2-WinUI3StyleImpl.dll"))
+    end)
