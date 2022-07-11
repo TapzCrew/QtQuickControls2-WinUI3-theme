@@ -8,7 +8,7 @@ name: Windows
     branches:
       - main
 env:
-  QT_VERSION: 6.3.0
+  QT_VERSION: 6.3.1
   CMAKE_VERSION: 3.22.3
   NINJA_VERSION: 1.10.2
 jobs:
@@ -93,8 +93,9 @@ jobs:
           file(MAKE_DIRECTORY qt)
 
           # Save the path for other steps
-          file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/qt/${qt_dir_prefix}" qt_dir)
+          file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/qt/" qt_dir)
           message("::set-output name=qt_dir::${qt_dir}")
+          message("::set-output name=qt_dir_prefix::${qt_dir_prefix}")
 
           message("Downloading Qt to ${qt_dir}")
           function(downloadAndExtract url archive)
@@ -127,8 +128,8 @@ jobs:
         run: |
           $VS_RUNTIME = "MD"
 
-          xmake f -v --yes -m ${{ matrix.mode }} -k ${{ matrix.kind }} --vs_runtime=$VS_RUNTIME --qt=${{ steps.qt.outputs.qt_dir }}
-          xmake b -v
+          xmake f -vD --yes -m ${{ matrix.mode }} -k ${{ matrix.kind }} --vs_runtime=$VS_RUNTIME --qt=${{ steps.qt.outputs.qt_dir }}${{ steps.qt.outputs.qt_dir_prefix }}
+          xmake b -vD
       - name: Install
         id: install
         run: |
