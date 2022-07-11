@@ -12,8 +12,6 @@ target("QQC2-WinUI3StyleImpl")
     set_values("qt.qmlplugin.import_name", "WinUI3Style.Impl")
     set_values("qt.qmlplugin.qmldirfile", "qml/qmldir")
 
-    add_installfiles("qml/qmldir", {prefixdir = "bin/WinUI3Style/Impl"})
-
     add_frameworks("QtCore",
                    "QtGui",
                    "QtQuick",

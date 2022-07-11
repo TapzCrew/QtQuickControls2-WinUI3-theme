@@ -14,6 +14,9 @@ target("WinUI3Style-example")
                    "QtQuick",
                    "QtQuickControls2")
 
+    set_values("qt.deploy.qmldir", "qml/")
+    set_values("qt.deploy.flags", "--no-translations", "--no-virtualkeyboard", "--no-opengl-sw")
+
     if is_plat("windows") then
         set_runtimes(is_mode("debug") and "MDd" or "MD")
 
