@@ -20,10 +20,9 @@ jobs:
       matrix:
         os:
           - name: Windows
-            compiler: MSVC
+            artifact: "Windows-x64"
             value: windows-latest
             triplet: x64-windows
-            environment_script: "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
         kind:
           - shared
         mode:
@@ -57,12 +56,6 @@ jobs:
           set(cmake_suffix "win64-x64.zip")
           set(cmake_dir "cmake-${cmake_version}-win64-x64/bin")
 
-          if(EXISTS "${{ matrix.config.environment_script }}")
-              message(STATUS "${{ matrix.config.environment_script }} EXISTS !")
-          else()
-              message(FATAL "${{ matrix.config.environment_script }} NOT EXISTS !")
-          endif()
-            
           set(ninja_url "https://github.com/ninja-build/ninja/releases/download/v${ninja_version}/ninja-${ninja_suffix}")
           file(DOWNLOAD "${ninja_url}" ./ninja.zip SHOW_PROGRESS)
           execute_process(COMMAND ${CMAKE_COMMAND} -E tar xvf ./ninja.zip)
@@ -73,15 +66,8 @@ jobs:
 
           # Add to PATH environment variable
           file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/${cmake_dir}" cmake_dir)
-            set(path_separator ";")
+          set(path_separator ";")
           file(APPEND "$ENV{GITHUB_PATH}" "$ENV{GITHUB_WORKSPACE}${path_separator}${cmake_dir}")
-
-          if (NOT "${{ runner.os }}" STREQUAL "Windows")
-            execute_process(
-              COMMAND chmod +x ninja
-              COMMAND chmod +x ${cmake_dir}/cmake
-            )
-          endif()
 
       - name: Download Qt
         id: qt
