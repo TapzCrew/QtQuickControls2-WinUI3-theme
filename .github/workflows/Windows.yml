@@ -102,8 +102,8 @@ jobs:
           function(downloadAndExtract url archive)
             message("Downloading ${url}")
             file(DOWNLOAD "${url}" ./${archive} SHOW_PROGRESS)
-            execute_process(COMMAND ${CMAKE_COMMAND} -E tar xvf ../${archive} WORKING_DIRECTORY $ENV{GITHUB_WORKSPACE}/qt)
-            execute_process(COMMAND tree $ENV{GITHUB_WORKSPACE}/qt)
+            execute_process(COMMAND ${CMAKE_COMMAND} -E tar xvf ../${archive} WORKING_DIRECTORY ${qt_dir})
+            execute_process(COMMAND ls -lAh WORKING_DIRECTORY ${qt_dir})
           endfunction()
 
           foreach(package qtbase qtdeclarative)
