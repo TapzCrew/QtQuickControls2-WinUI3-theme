@@ -23,6 +23,7 @@ jobs:
             compiler: MSVC
             value: windows-latest
             triplet: x64-windows
+            environment_script: "C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Auxiliary/Build/vcvars64.bat"
         kind:
           - shared
         mode:
@@ -102,7 +103,7 @@ jobs:
             message("Downloading ${url}")
             file(DOWNLOAD "${url}" ./${archive} SHOW_PROGRESS)
             execute_process(COMMAND ${CMAKE_COMMAND} -E tar xvf ../${archive} WORKING_DIRECTORY $ENV{GITHUB_WORKSPACE}/qt)
-            execute_process(COMMAND ${CMAKE_COMMAND} -E tree $ENV{GITHUB_WORKSPACE}/qt)
+            execute_process(COMMAND tree $ENV{GITHUB_WORKSPACE}/qt)
           endfunction()
 
           foreach(package qtbase qtdeclarative)
