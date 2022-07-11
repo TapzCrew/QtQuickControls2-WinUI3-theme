@@ -13,7 +13,7 @@ env:
   NINJA_VERSION: 1.11.0
 jobs:
   build:
-    name: ${{ matrix.os.name }} ( ${{matrix.os.compiler }} ${{ matrix.kind }}, ${{ matrix.mode }} )
+    name: ${{ matrix.os.name }} (${{matrix.os.compiler }} ${{ matrix.kind }}, ${{ matrix.mode }})
     runs-on: ${{ matrix.os.value }}
     strategy:
       fail-fast: false
@@ -34,29 +34,6 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-
-      - name: Download Ninja and CMake
-        shell: cmake -P {0}
-        run: |
-          set(cmake_version "$ENV{CMAKE_VERSION}")
-          set(ninja_version "$ENV{NINJA_VERSION}")
-
-          set(ninja_suffix "win.zip")
-          set(cmake_suffix "windows-x86_64.zip")
-          set(cmake_dir "cmake-${cmake_version}-windows-x86_64/bin")
-
-          set(ninja_url "https://github.com/ninja-build/ninja/releases/download/v${ninja_version}/ninja-${ninja_suffix}")
-          file(DOWNLOAD "${ninja_url}" ./ninja.zip SHOW_PROGRESS)
-          execute_process(COMMAND ${CMAKE_COMMAND} -E tar xvf ./ninja.zip)
-
-          set(cmake_url "https://github.com/Kitware/CMake/releases/download/v${cmake_version}/cmake-${cmake_version}-${cmake_suffix}")
-          file(DOWNLOAD "${cmake_url}" ./cmake.zip SHOW_PROGRESS)
-          execute_process(COMMAND ${CMAKE_COMMAND} -E tar xvf ./cmake.zip)
-
-          # Add to PATH environment variable
-          file(TO_CMAKE_PATH "$ENV{GITHUB_WORKSPACE}/${cmake_dir}" cmake_dir)
-          set(path_separator ";")
-          file(APPEND "$ENV{GITHUB_PATH}" "$ENV{GITHUB_WORKSPACE}${path_separator}${cmake_dir}")
 
       - name: Install xmake
         uses: xmake-io/github-action-setup-xmake@v1
@@ -103,7 +80,7 @@ jobs:
             execute_process(COMMAND ${CMAKE_COMMAND} -E tar xvf ../${archive} WORKING_DIRECTORY ${qt_base_dir})
           endfunction()
 
-          foreach(package qtbase qtdeclarative)
+          foreach(package qtbase qtdeclarative d3dcompiler)
             downloadAndExtract(
               "${qt_base_url}/qt.qt${qt_version_major}.${qt_version_dotless}.${qt_package_arch_suffix}/${qt_package_version}${package}${qt_package_suffix}.7z"
               ${package}.7z
@@ -111,30 +88,25 @@ jobs:
           endforeach()
 
           if("${qt_version_major}" STREQUAL "6")
-            foreach(package qt5compat qtshadertools)
+            foreach(package addons addons.qtimageformats)
               downloadAndExtract(
                 "${qt_base_url}/qt.qt6.${qt_version_dotless}.${package}.${qt_package_arch_suffix}/${qt_package_version}${package}${qt_package_suffix}.7z"
                 ${package}.7z
               )
             endforeach()
           endif()
-          execute_process(COMMAND pwd)
-          execute_process(COMMAND dir)
 
       - name: Configure & Build
         id: confandbuild
         shell: cmake -P {0}
         run: |
-          execute_process(COMMAND pwd)
-          execute_process(COMMAND dir)
-          
           set(VS_RUNTIME "MD")
           if(${{ matrix.mode}} STREQUAL "debug")
               set(VS_RUNTIME "MDd")
           endif()
 
-          execute_process(COMMAND ls -lAh "${{ steps.qt.outputs.qt_base_dir }}")
-          execute_process(COMMAND xmake f -vD --yes -m ${{ matrix.mode }} -k ${{ matrix.kind }} --vs_runtime=${VS_RUNTIME} --qt="${{ steps.qt.outputs.qt_base_dir }}")
+          execute_process(COMMANd ls qt)
+          execute_process(COMMAND xmake f -vD --yes -m ${{ matrix.mode }} -k ${{ matrix.kind }} --vs_runtime=${VS_RUNTIME} --qt="qt")
           execute_process(COMMAND xmake b -vD)
           
       - name: Install
@@ -145,7 +117,7 @@ jobs:
           
       - name: Upload artifacts
         id: upload
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: ${{ matrix.os.name }}-${{ matrix.os.compiler }}-${{ matrix.kind }}-${{ matrix.mode }}
           path: ${{ runner.workspace }}/qtquick-controls2-winui3-theme-output
