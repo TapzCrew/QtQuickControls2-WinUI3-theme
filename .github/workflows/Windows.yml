@@ -90,12 +90,14 @@ jobs:
             d3dcompiler_47.7z
           )
 
-          foreach(package addons addons.qtimageformats)
-            downloadAndExtract(
-              "${qt_base_url}/qt.qt6.${qt_version_dotless}.${package}.${qt_package_arch_suffix}/${qt_package_version}meta.7z"
-              ${package}.7z
-            )
-          endforeach()
+          downloadAndExtract(
+            "${qt_base_url}/qt.qt6.${qt_version_dotless}.${addons}.${qt_package_arch_suffix}/${qt_package_version}meta.7z"
+            ${addons.qtimageformats}.7z
+          )
+          downloadAndExtract(
+            "${qt_base_url}/qt.qt6.${qt_version_dotless}.${addons.qtimageformats}.${qt_package_arch_suffix}/${qt_package_version}meta.7z"
+            ${addons}.7z
+          )
 
           file(APPEND "$ENV{GITHUB_PATH}" "${qt_dir}/bin")
 
@@ -108,15 +110,15 @@ jobs:
               set(VS_RUNTIME "MDd")
           endif()
 
-          execute_process(COMMAND ls qt)
-          execute_process(COMMAND xmake f -vD --yes -m ${{ matrix.mode }} -k ${{ matrix.kind }} --vs_runtime=${VS_RUNTIME} --qt="qt")
+          execute_process(COMMAND xmake f -vD --yes -m ${{ matrix.mode }} -k ${{ matrix.kind }} --vs_runtime=${VS_RUNTIME} --qt=qt)
           execute_process(COMMAND xmake b -vD)
           
       - name: Install
         id: install
         shell: cmake -P {0}
         run: |
-          execute_process(COMMAND xmake install -v --installdir="$ENV{GITHUB_WORKSPACE}/qtquick-controls2-winui3-theme-output")
+          file(MAKE_DIRECTORY qtquick-controls2-winui3-theme-output)
+          execute_process(COMMAND xmake install -vD --installdir=$ENV{GITHUB_WORKSPACE}/qtquick-controls2-winui3-theme-output)
           
       - name: Upload artifacts
         id: upload
