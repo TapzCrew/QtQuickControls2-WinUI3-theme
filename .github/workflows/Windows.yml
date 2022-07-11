@@ -145,7 +145,7 @@ jobs:
               set(VS_RUNTIME "MDd")
           endif()
 
-          execute_process(COMMAND dir "${{ steps.qt.outputs.qt_base_dir }}")
+          execute_process(COMMAND ls -lAh "${{ steps.qt.outputs.qt_base_dir }}")
           execute_process(COMMAND xmake f -vD --yes -m ${{ matrix.mode }} -k ${{ matrix.kind }} --vs_runtime=${VS_RUNTIME} --qt="${{ steps.qt.outputs.qt_base_dir }}")
           execute_process(COMMAND xmake b -vD)
           
