@@ -130,6 +130,7 @@ jobs:
 
           xmake f -vD --yes -m ${{ matrix.mode }} -k ${{ matrix.kind }} --vs_runtime=$VS_RUNTIME --qt=${{ steps.qt.outputs.qt_dir }}/${{ steps.qt.outputs.qt_dir_prefix }}
           xmake b -vD
+          
       - name: Install
         id: install
         run: |
