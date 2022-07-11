@@ -98,7 +98,7 @@ auto MicaWindow::setMicaEnabled(bool enabled) noexcept -> void {
 /////////////////////////////////////
 auto MicaWindow::nativeEvent(const QByteArray &type, void *message, qintptr *result) -> bool {
     auto msg               = reinterpret_cast<MSG *>(message);
-    const auto pixel_ratio = qApp->devicePixelRatio();
+    const auto pixel_ratio = effectiveDevicePixelRatio();
 
     const auto XFRAME_WIDTH = GetSystemMetrics(SM_CXFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER);
     const auto YFRAME_WIDTH = GetSystemMetrics(SM_CYFRAME) + GetSystemMetrics(SM_CXPADDEDBORDER);
@@ -187,7 +187,7 @@ auto MicaWindow::nativeEvent(const QByteArray &type, void *message, qintptr *res
 /////////////////////////////////////
 /////////////////////////////////////
 auto MicaWindow::hitWidgetTest(int x, int y) -> bool {
-    const auto pixel_ratio = qApp->devicePixelRatio();
+    const auto pixel_ratio = effectiveDevicePixelRatio();
 
     const auto caption = qobject_cast<QQuickItem *>(findChild<QObject *>("caption"));
 
