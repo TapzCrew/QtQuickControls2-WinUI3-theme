@@ -149,12 +149,10 @@ auto MicaWindow::nativeEvent(const QByteArray &type, void *message, qintptr *res
         const auto actual_width  = rect.right - rect.left;
         const auto actual_height = rect.bottom - rect.top;
 
-        const auto is_top = mouse_position.y < (m_resize_frame_width * pixel_ratio);
-        const auto is_bottom =
-            mouse_position.y > actual_height + (m_resize_frame_width * pixel_ratio);
-        const auto is_left = mouse_position.x < -(m_resize_frame_width * pixel_ratio);
-        const auto is_right =
-            mouse_position.x > actual_width + (m_resize_frame_width * pixel_ratio);
+        const auto is_top    = mouse_position.y < m_resize_frame_width;
+        const auto is_bottom = mouse_position.y > actual_height + m_resize_frame_width;
+        const auto is_left   = mouse_position.x < -m_resize_frame_width;
+        const auto is_right  = mouse_position.x > actual_width + m_resize_frame_width;
 
         if (is_top && !m_maximized) {
             if (is_left) *result = HTTOPLEFT;
