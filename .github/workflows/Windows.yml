@@ -92,10 +92,10 @@ jobs:
           string(REGEX MATCH "^[0-9]+" qt_version_major "${qt_version}")
           string(REPLACE "." "" qt_version_dotless "${qt_version}")
 
-            set(url_os "windows_x86")
-            set(qt_package_arch_suffix "win64_msvc2019_64")
-            set(qt_dir_prefix "${qt_version}/msvc2019_64")
-            set(qt_package_suffix "-Windows-Windows_10_21H2-MSVC2019-Windows-Windows_10_21H2-X86_64")
+          set(url_os "windows_x86")
+          set(qt_package_arch_suffix "win64_msvc2019_64")
+          set(qt_dir_prefix "${qt_version}/msvc2019_64")
+          set(qt_package_suffix "-Windows-Windows_10_21H2-MSVC2019-Windows-Windows_10_21H2-X86_64")
 
           set(qt_base_url "https://download.qt.io/online/qtsdkrepository/${url_os}/desktop/qt${qt_version_major}_${qt_version_dotless}")
           file(DOWNLOAD "${qt_base_url}/Updates.xml" ./Updates.xml SHOW_PROGRESS)
@@ -135,7 +135,8 @@ jobs:
               )
             endforeach()
           endif()
-          
+          execute_process(COMMAND pwd)
+          execute_process(COMMAND dir)
 
       - name: Configure & Build
         id: confandbuild
