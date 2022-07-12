@@ -8,5 +8,6 @@
         <file>qml/SliderPage.qml</file>
         <file>qml/DropDownButtonPage.qml</file>
         <file>qml/HyperLinkButtonPage.qml</file>
+        <file>qml/ControlPane.qml</file>
     </qresource>
 </RCC>
