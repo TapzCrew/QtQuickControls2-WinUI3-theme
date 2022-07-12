@@ -133,12 +133,15 @@ T.ToolButton {
 
         readonly property color contentColor: {
             if (!control.enabled)
-                return (highlighted) ? control.WinUI3Style.textOnAccentFillColorDisabled : control.WinUI3Style.textFillColorDisabled
+                return control.WinUI3Style.accentFillColorDisabled
 
             if (control.down)
-                return (highlighted) ? control.WinUI3Style.textOnAccentFillColorSecondary : control.WinUI3Style.textFillColorSecondary
+                return control.WinUI3Style.accentFillColorTertiary
 
-            return (highlighted) ? control.WinUI3Style.textOnAccentFillColorPrimary : control.WinUI3Style.textFillColorPrimary
+            if (control.highlighted)
+                return control.WinUI3Style.accentFillColorSecondary
+
+            return control.WinUI3Style.accentFillColorPrimary
         }
     }
 }
