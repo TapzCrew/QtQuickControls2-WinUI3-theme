@@ -34,8 +34,10 @@ MicaWindow::MicaWindow(QWindow *parent)
 
     EnableMenuItem(GetSystemMenu(hwnd, FALSE), SC_CLOSE, MF_BYCOMMAND | MF_DISABLED | MF_GRAYED);
 
+    m_is_mica_enabled = m_win_addons.windowsVersion().build_number >= 22000;
     m_win_addons.setMicaEnabled(m_is_mica_enabled);
-    setColor(Qt::transparent);
+
+    if (m_is_mica_enabled) setColor(Qt::transparent);
 
     connect(this, &QQuickWindow::colorChanged, this, [this](const QColor &color) {
         if (color == Qt::transparent) return;
