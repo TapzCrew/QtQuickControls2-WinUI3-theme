@@ -27,16 +27,6 @@ target("QQC2-WinUI3StyleAddons")
                    "QtQuickControls2Implprivate",
                    "QtQuickTemplates2private")
 
-    if is_plat("windows") then
-        set_runtimes(is_mode("debug") and "MDd" or "MD")
-
-        add_defines("_CRT_SECURE_NO_WARNINGS")
-        add_cxxflags("/bigobj", "/permissive-", "/Zc:__cplusplus", "/Zc:externConstexpr", "/Zc:inline", "/Zc:lambda", "/Zc:preprocessor", "/Zc:referenceBinding", "/Zc:strictStrings", "/Zc:throwingNew")
-        add_cxflags("/w44062") -- Enable warning: switch case not handled
-        add_cxflags("/wd4251") -- Disable warning: class needs to have dll-interface to be used by clients of class blah blah blah
-        add_cxflags("/wd4297")
-    end
-
     after_install(function(target)
         os.mv(path.join(target:installdir(), "bin/QQC2-WinUI3StyleAddons.dll"), path.join(target:installdir(), "bin/WinUI3Style/Addons/QQC2-WinUI3StyleAddons.dll"))
     end)
