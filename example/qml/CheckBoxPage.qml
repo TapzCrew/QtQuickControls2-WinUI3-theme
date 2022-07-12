@@ -58,6 +58,18 @@ Frame {
                         wrapMode: Text.WordWrap
                     }
 
+                    Label {
+                        text: "from QtQuick.Controls"
+
+                        Layout.fillWidth: true
+                        Layout.rightMargin: 12
+
+                        wrapMode: Text.WordWrap
+
+                        font.pixelSize: 12
+                        font.family: "Segoe UI Light"
+                    }
+
                     ColumnLayout {
                         Layout.fillWidth: true
                         Layout.rightMargin: 12
