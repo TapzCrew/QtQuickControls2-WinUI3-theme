@@ -25,57 +25,83 @@ T.ScrollBar {
 
     property bool useSystemFocusVisuals: true
 
-    Triangle {
-        id: up_arrow
-
-        orientation: Triangle.Orientation.Up
-
+    Item {
         implicitWidth: internal.backgroundWidth
         implicitHeight: internal.arrowHeight
 
-        triangleWidth: 8
-        triangleHeight: 6
+        Triangle {
+            id: up_arrow
 
-        fill: true
-        stroke: false
+            orientation: Triangle.Orientation.Up
 
-        fillColor: (up_ma.hovered) ? control.WinUI3Style.controlStrongFillColorDefault : control.WinUI3Style.textFillColorSecondary
+            anchors.fill: parent
 
-        visible: parent.visible && control.size < 1.0
-        opacity: 0.0
+            triangleWidth: (up_ma.pressed) ? 7 : 8
+            triangleHeight: (up_ma.pressed) ? 5 : 6
+
+            fill: true
+            stroke: false
+
+            fillColor: {
+                if (up_ma.containsMouse)
+                    return control.WinUI3Style.textFillColorSecondary
+
+                return control.WinUI3Style.controlStrongFillColorDefault
+            }
+
+            visible: parent.visible && control.size < 1.0
+            opacity: 0.0
+        }
 
         MouseArea {
             id: up_ma
 
             anchors.fill: parent
+
+            hoverEnabled: true
+
+            onPressed: control.decrease()
         }
     }
 
-    Triangle {
-        id: down_arrow
-
-        orientation: Triangle.Orientation.Down
-
+    Item {
         implicitWidth: internal.backgroundWidth
         implicitHeight: internal.arrowHeight
 
-        triangleWidth: 8
-        triangleHeight: 6
-
         y: parent.height - height
 
-        fill: true
-        stroke: false
+        Triangle {
+            id: down_arrow
 
-        fillColor: (down_ma.hovered) ? control.WinUI3Style.controlStrongFillColorDefault : control.WinUI3Style.textFillColorSecondary
+            orientation: Triangle.Orientation.Down
 
-        visible: parent.visible && control.size < 1.0
-        opacity: 0.0
+            anchors.fill: parent
+
+            triangleWidth: (down_ma.pressed) ? 7 : 8
+            triangleHeight: (down_ma.pressed) ? 5 : 6
+
+            fill: true
+            stroke: false
+
+            fillColor: {
+                if (down_ma.containsMouse)
+                    return control.WinUI3Style.textFillColorSecondary
+
+                return control.WinUI3Style.controlStrongFillColorDefault
+            }
+
+            visible: parent.visible && control.size < 1.0
+            opacity: 0.0
+        }
 
         MouseArea {
             id: down_ma
 
             anchors.fill: parent
+
+            hoverEnabled: true
+
+            onPressed: control.increase()
         }
     }
 

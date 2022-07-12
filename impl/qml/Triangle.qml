@@ -16,16 +16,26 @@ Canvas {
 
     property int triangleWidth: 60
     property int triangleHeight: 60
-    property color strokeColor: "#ffffff"
-    property color fillColor: "#ffffff"
+    property color strokeColor: "#ffffffff"
+    property color fillColor: "#ffffffff"
     property int lineWidth: 3
     property bool fill: false
     property bool stroke: true
     property real alpha: 1.0
 
+    function repaint() {
+        requestPaint()
+    }
+
+    onOrientationChanged: requestPaint()
+    onTriangleWidthChanged: requestPaint()
+    onTriangleHeightChanged: requestPaint()
+    onFillColorChanged: requestPaint()
+    onStrokeColorChanged: requestPaint()
     onLineWidthChanged: requestPaint()
     onFillChanged: requestPaint()
     onStrokeChanged: requestPaint()
+    onAlphaChanged: requestPaint()
 
     onPaint: {
         var ctx = getContext("2d")
