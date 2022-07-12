@@ -64,7 +64,7 @@ T.Slider {
 
                 radius: internal.innerCircleRadius
 
-                color: internal.innerCircleColor()
+                color: internal.innerCircleColor
             }
         }
     }
@@ -230,13 +230,13 @@ T.Slider {
         readonly property real innerCircleHoveredDiameter: 14
         readonly property real innerCirclePushedDiameter: 8
 
-        readonly property real innerCircleDuration: 150
+        readonly property int innerCircleDuration: 150
 
         property real innerCircleWidth: innerCircleIdleDiameter
         property real innerCircleHeight: innerCircleIdleDiameter
         property real innerCircleRadius: innerCircleIdleDiameter / 2
 
-        function innerCircleColor() {
+        readonly property color innerCircleColor: {
             if (control.hovered)
                 return control.WinUI3Style.accentFillColorSecondary
 

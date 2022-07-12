@@ -20,7 +20,7 @@ T.Button {
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
                              implicitContentHeight + topPadding + bottomPadding)
 
-    icon.color: internal.contentColor()
+    icon.color: internal.contentColor
 
     property bool useSystemFocusVisuals: true
 
@@ -35,7 +35,7 @@ T.Button {
         text: control.text
         font: control.font
 
-        color: internal.contentColor()
+        color: internal.contentColor
     }
 
     background: Rectangle {
@@ -45,25 +45,18 @@ T.Button {
         implicitHeight: 34
         implicitWidth: 64
 
-        property color backColor: (highlighted) ? (control.WinUI3Style.theme !== WinUI3Style.Theme.Dark) ? WinUI3Style.color(WinUI3Style.Color.Accent) : WinUI3Style.color(WinUI3Style.Color.AccentLight2) : control.WinUI3Style.controlStrokeColorDefault
-        property color frontColor: (highlighted) ? (control.WinUI3Style.theme !== WinUI3Style.Theme.Dark) ? WinUI3Style.color(WinUI3Style.Color.AccentDark2) : WinUI3Style.color(WinUI3Style.Color.AccentLight1) : control.WinUI3Style.controlStrokeColorSecondary
-
         gradient: Gradient {
             GradientStop {
                 position: 0
-                color: (control.WinUI3Style.theme !== WinUI3Style.Theme.Dark
-                        || control.highlighted) ? gradient.backColor : "transparent"
+                color: internal.backColor
             }
             GradientStop {
                 position: 0.8
-                color: (control.WinUI3Style.theme !== WinUI3Style.Theme.Dark
-                        || control.highlighted) ? gradient.backColor : "transparent"
+                color: internal.backColor
             }
             GradientStop {
                 position: 1
-                color: (control.WinUI3Style.theme !== WinUI3Style.Theme.Dark
-                        || control.highlighted) ? control.down
-                                                  || !control.enabled ? gradient.backColor : gradient.frontColor : "transparent"
+                color: internal.frontColor
             }
         }
 
@@ -74,92 +67,93 @@ T.Button {
             visible: !control.flat || control.down || control.checked
                      || control.highlighted
 
-            x: (control.WinUI3Style.theme === WinUI3Style.Theme.Dark
-                && !highlighted) ? parent.x : parent.x + 1
-            y: (control.WinUI3Style.theme === WinUI3Style.Theme.Dark
-                && !highlighted) ? parent.y : parent.y + 1
-            width: (control.WinUI3Style.theme === WinUI3Style.Theme.Dark
-                    && !highlighted) ? parent.width : parent.width - 2
-            height: (control.WinUI3Style.theme === WinUI3Style.Theme.Dark
-                     && !highlighted) ? parent.height : parent.height - 2
+            x: parent.x + border.width
+            y: parent.y + border.width
 
-            border.width: (control.WinUI3Style.theme === WinUI3Style.Theme.Dark
-                           && !highlighted) ? 1 : 0
-            border.color: gradient.frontColor
+            width: parent.width - border.width * 2
+            height: parent.height - border.width * 2
+
+            color: internal.backgroundColorReleased
+
+            border.width: ((highlighted || checked) && down) ? 0 : 1
+            border.color: internal.borderColor
         }
     }
 
-    state: (!enabled) ? "NONE" : (down) ? "PUSHED" : (hovered) ? "HOVERED" : "RELEASED"
     states: [
         State {
-            name: "NONE"
-            PropertyChanges {
-                target: button
-                color: (control.highlighted) ? control.WinUI3Style.accentFillColorDisabled : control.WinUI3Style.controlFillColorDisabled
-            }
+            name: "disabled"
+            when: !control.enabled
         },
         State {
-            name: "RELEASED"
-            PropertyChanges {
-                target: button
-                color: (control.highlighted) ? control.WinUI3Style.accentFillColorPrimary : control.WinUI3Style.controlFillColorDefault
-            }
+            name: "idle"
+            when: control.enabled && !control.down && !control.hovered
         },
         State {
-            name: "PUSHED"
-            PropertyChanges {
-                target: button
-                color: (control.highlighted) ? control.WinUI3Style.accentFillColorTertiary : control.WinUI3Style.controlFillColorTertiary
-            }
+            name: "pushed"
+            when: control.down
         },
         State {
-            name: "HOVERED"
-            PropertyChanges {
-                target: button
-                color: (control.highlighted) ? control.WinUI3Style.accentFillColorSecondary : control.WinUI3Style.controlFillColorSecondary
-            }
+            name: "hovered"
+            when: control.hovered
         }
     ]
 
     transitions: [
         Transition {
-            from: "*"
-            to: "NONE"
+            to: "disabled"
 
             ColorAnimation {
                 target: button
-                easing.type: Easing.InOutQuad
-                duration: 100
+                property: "color"
+
+                to: (checked) ? control.WinUI3Style.controlFillColorDisabled : internal.backgroundColorDisabled
+
+                duration: internal.colorTransitionsDuration
+
+                easing.type: Easing.OutQuad
             }
         },
         Transition {
-            from: "*"
-            to: "RELEASED"
+            to: "idle"
 
             ColorAnimation {
                 target: button
-                easing.type: Easing.InOutQuad
-                duration: 100
+                property: "color"
+
+                to: internal.backgroundColorReleased
+
+                duration: internal.colorTransitionsDuration
+
+                easing.type: Easing.OutQuad
             }
         },
         Transition {
-            from: "*"
-            to: "PUSHED"
+            to: "pushed"
 
             ColorAnimation {
                 target: button
-                easing.type: Easing.InOutQuad
-                duration: 100
+                property: "color"
+
+                to: internal.backgroundColorPushed
+
+                duration: internal.colorTransitionsDuration
+
+                easing.type: Easing.OutQuad
             }
         },
         Transition {
-            from: "*"
-            to: "HOVERED"
+            to: "hovered"
 
             ColorAnimation {
                 target: button
-                easing.type: Easing.InOutQuad
-                duration: 100
+                property: "color"
+
+                to: internal.backgroundColorHovered
+
+                duration: internal.colorTransitionsDuration
+
+                easing.type: Easing.OutQuad
             }
         }
     ]
@@ -167,14 +161,63 @@ T.Button {
     QtObject {
         id: internal
 
-        function contentColor() {
+        readonly property color backgroundColorDisabled: (control.highlighted
+                                                          || checked) ? control.WinUI3Style.accentFillColorDisabled : control.WinUI3Style.controlFillColorDisabled
+        readonly property color backgroundColorReleased: (control.highlighted
+                                                          || control.checked) ? control.WinUI3Style.accentFillColorPrimary : control.WinUI3Style.controlFillColorDefault
+        readonly property color backgroundColorPushed: (control.highlighted
+                                                        || control.checked) ? control.WinUI3Style.accentFillColorTertiary : control.WinUI3Style.controlFillColorTertiary
+        readonly property color backgroundColorHovered: (control.highlighted
+                                                         || control.checked) ? control.WinUI3Style.accentFillColorSecondary : control.WinUI3Style.controlFillColorSecondary
+
+        readonly property color borderColor: (control.highlighted
+                                              || control.checked) ? (!control.enabled) ? "transparent" : control.WinUI3Style.accentFillColorPrimary : ((control.WinUI3Style.theme === WinUI3Style.Theme.Light && !down && !(highlighted || checked)) || !control.enabled) ? "transparent" : control.WinUI3Style.controlStrokeColorDefault
+
+        readonly property int colorTransitionsDuration: 100
+
+        readonly property color backColor: {
+            if (control.WinUI3Style.theme === WinUI3Style.Theme.Dark
+                    && !highlighted && !checked)
+                return "transparent"
+
+            if (!enabled || down)
+                return "transparent"
+
+            if (highlighted || checked)
+                return control.WinUI3Style.accentFillColorPrimary
+
+            return control.WinUI3Style.controlStrokeColorDefault
+        }
+
+        readonly property color frontColor: {
+            if (control.WinUI3Style.theme === WinUI3Style.Theme.Dark
+                    && !highlighted && !checked)
+                return "transparent"
+
+            if (!enabled || down)
+                return "transparent"
+
+            if (highlighted || checked) {
+                if (control.WinUI3Style.theme !== WinUI3Style.Theme.Dark)
+                    return WinUI3Style.color(WinUI3Style.Color.AccentDark2)
+                else
+                    WinUI3Style.color(WinUI3Style.Color.AccentLight1)
+            }
+
+            return control.WinUI3Style.controlStrokeColorSecondary
+        }
+
+        readonly property color contentColor: {
             if (!control.enabled)
-                return (highlighted) ? control.WinUI3Style.textOnAccentFillColorDisabled : control.WinUI3Style.textFillColorDisabled
+                return (control.highlighted
+                        || control.checked) ? control.WinUI3Style.textOnAccentFillColorDisabled : control.WinUI3Style.textFillColorDisabled
 
             if (control.down)
-                return (highlighted) ? control.WinUI3Style.textOnAccentFillColorSecondary : control.WinUI3Style.textFillColorSecondary
+                return (control.highlighted)
+                        || control.checked ? control.WinUI3Style.textOnAccentFillColorSecondary : control.WinUI3Style.textFillColorSecondary
 
-            return (highlighted) ? control.WinUI3Style.textOnAccentFillColorPrimary : control.WinUI3Style.textFillColorPrimary
+            return (control.highlighted
+                    || control.checked) ? control.WinUI3Style.textOnAccentFillColorPrimary : control.WinUI3Style.textFillColorPrimary
         }
     }
 }

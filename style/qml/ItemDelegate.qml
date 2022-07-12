@@ -22,7 +22,7 @@ T.ItemDelegate {
     icon.width: 20
     icon.height: 20
 
-    icon.color: internal.contentColor()
+    icon.color: internal.contentColor
 
     contentItem: IconLabel {
         spacing: control.spacing
@@ -34,7 +34,7 @@ T.ItemDelegate {
         icon: control.icon
         text: control.text
         font: control.font
-        color: internal.contentColor()
+        color: internal.contentColor
     }
 
     background: Rectangle {
@@ -78,7 +78,7 @@ T.ItemDelegate {
     QtObject {
         id: internal
 
-        function contentColor() {
+        readonly property color contentColor: {
             if (control.down)
                 return control.WinUI3Style.textFillColorSecondary
             if (control.disabled)

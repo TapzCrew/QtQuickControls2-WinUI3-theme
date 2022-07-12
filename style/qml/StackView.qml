@@ -10,14 +10,14 @@ T.StackView {
                 property: "opacity"
                 from: 0
                 to: 1
-                duration: 200
+                duration: internal.opacityTransitionDuration
                 easing.type: Easing.InQuint
             }
             NumberAnimation {
                 property: "x"
                 from: (control.mirrored ? -0.3 : 0.3) * -control.width
                 to: 0
-                duration: 400
+                duration: internal.xTransitionDuration
                 easing.type: Easing.OutCubic
             }
         }
@@ -28,7 +28,7 @@ T.StackView {
             property: "opacity"
             from: 1
             to: 0
-            duration: 200
+            duration: internal.opacityTransitionDuration
             easing.type: Easing.OutQuint
         }
     }
@@ -39,14 +39,14 @@ T.StackView {
                 property: "opacity"
                 from: 0
                 to: 1
-                duration: 200
+                duration: internal.opacityTransitionDuration
                 easing.type: Easing.InQuint
             }
             NumberAnimation {
                 property: "x"
                 from: (control.mirrored ? -0.3 : 0.3) * control.width
                 to: 0
-                duration: 400
+                duration: internal.xTransitionDuration
                 easing.type: Easing.OutCubic
             }
         }
@@ -57,7 +57,7 @@ T.StackView {
             property: "opacity"
             from: 1
             to: 0
-            duration: 200
+            duration: internal.opacityTransitionDuration
             easing.type: Easing.OutQuint
         }
     }
@@ -68,14 +68,14 @@ T.StackView {
                 property: "opacity"
                 from: 0
                 to: 1
-                duration: 200
+                duration: internal.opacityTransitionDuration
                 easing.type: Easing.InQuint
             }
             NumberAnimation {
                 property: "x"
                 from: (control.mirrored ? -0.3 : 0.3) * control.width
                 to: 0
-                duration: 400
+                duration: internal.xTransitionDuration
                 easing.type: Easing.OutCubic
             }
         }
@@ -86,8 +86,15 @@ T.StackView {
             property: "opacity"
             from: 1
             to: 0
-            duration: 200
+            duration: internal.opacityTransitionDuration
             easing.type: Easing.OutQuint
         }
+    }
+
+    QtObject {
+        id: internal
+
+        readonly property int opacityTransitionDuration: 200
+        readonly property int xTransitionDuration: 400
     }
 }

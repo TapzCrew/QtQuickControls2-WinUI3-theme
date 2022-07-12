@@ -30,8 +30,8 @@ T.CheckBox {
 
         radius: 4
 
-        color: internal.backgroundColor()
-        border.color: internal.borderColor()
+        color: internal.backgroundColor
+        border.color: internal.borderColor
         border.width: 1
 
         IconLabel {
@@ -55,7 +55,7 @@ T.CheckBox {
                 return ""
             }
 
-            color: internal.checkMarkColor()
+            color: internal.checkMarkColor
 
             visible: control.checkState == Qt.Checked
                      || control.checkState == Qt.PartiallyChecked
@@ -73,13 +73,13 @@ T.CheckBox {
         elide: Text.ElideRight
         verticalAlignment: Text.AlignVCenter
 
-        color: internal.contentColor()
+        color: internal.contentColor
     }
 
     QtObject {
         id: internal
 
-        function checkMarkColor() {
+        readonly property color checkMarkColor: {
             if (!control.enabled)
                 return control.WinUI3Style.textOnAccentFillColorDisabled
 
@@ -89,14 +89,14 @@ T.CheckBox {
             return control.WinUI3Style.textOnAccentFillColorPrimary
         }
 
-        function contentColor() {
+        readonly property color contentColor: {
             if (!control.enabled)
                 return control.WinUI3Style.textFillColorDisabled
 
             return control.WinUI3Style.textFillColorPrimary
         }
 
-        function backgroundColor() {
+        readonly property color backgroundColor: {
             if (control.checkState == Qt.Checked
                     || control.checkState == Qt.PartiallyChecked) {
                 if (!control.enabled)
@@ -123,7 +123,7 @@ T.CheckBox {
             return control.WinUI3Style.controlAltFillColorSecondary
         }
 
-        function borderColor() {
+        readonly property color borderColor: {
             if (control.checkState == Qt.Checked
                     || control.checkState == Qt.PartiallyChecked) {
                 if (!control.enabled)

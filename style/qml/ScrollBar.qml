@@ -190,6 +190,6 @@ T.ScrollBar {
         readonly property real backgroundWidth: 12
         readonly property real arrowHeight: 14
 
-        readonly property real animationDuration: 100
+        readonly property int animationDuration: 100
     }
 }

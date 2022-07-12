@@ -11,8 +11,6 @@ T.ToolButton {
     rightPadding: 14
     leftPadding: 14
 
-    //topPadding: 12
-    //bottomPadding: 12
     implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
                             implicitContentWidth + leftPadding + rightPadding)
     implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
@@ -20,7 +18,7 @@ T.ToolButton {
 
     spacing: 8
 
-    icon.color: internal.contentColor()
+    icon.color: internal.contentColor
 
     property string link: ""
     property bool useSystemFocusVisuals: true
@@ -36,7 +34,7 @@ T.ToolButton {
         text: control.text
         font: control.font
 
-        color: internal.contentColor()
+        color: internal.contentColor
     }
 
     background: Rectangle {
@@ -50,77 +48,80 @@ T.ToolButton {
         color: WinUI3Style.subtleFillColorTransparent
     }
 
-    state: (!control.enabled) ? "NONE" : (control.down) ? "PUSHED" : (control.hovered) ? "HOVERED" : "RELEASED"
     states: [
         State {
-            name: "NONE"
-            PropertyChanges {
-                target: button
-                color: control.WinUI3Style.subtleFillColorDisabled
-            }
+            name: "disabled"
+            when: !control.enabled
         },
         State {
-            name: "RELEASED"
-            PropertyChanges {
-                target: button
-                color: control.WinUI3Style.subtleFillColorTransparent
-            }
+            name: "idle"
+            when: control.enabled && !control.down && !control.hovered
         },
         State {
-            name: "PUSHED"
-            PropertyChanges {
-                target: button
-                color: control.WinUI3Style.subtleFillColorTertiary
-            }
+            name: "pushed"
+            when: control.down
         },
         State {
-            name: "HOVERED"
-            PropertyChanges {
-                target: button
-                color: control.WinUI3Style.subtleFillColorSecondary
-            }
+            name: "hovered"
+            when: control.hovered
         }
     ]
 
     transitions: [
         Transition {
-            from: "*"
-            to: "NONE"
+            to: "disabled"
 
             ColorAnimation {
                 target: button
-                easing.type: Easing.InOutQuad
-                duration: 100
+                property: "color"
+
+                to: control.WinUI3Style.subtleFillColorDisabled
+
+                duration: internal.colorTransitionsDuration
+
+                easing.type: Easing.OutQuad
             }
         },
         Transition {
-            from: "*"
-            to: "RELEASED"
+            to: "idle"
 
             ColorAnimation {
                 target: button
-                easing.type: Easing.InOutQuad
-                duration: 100
+                property: "color"
+
+                to: control.WinUI3Style.subtleFillColorTransparent
+
+                duration: internal.colorTransitionsDuration
+
+                easing.type: Easing.OutQuad
             }
         },
         Transition {
-            from: "*"
-            to: "PUSHED"
+            to: "pushed"
 
             ColorAnimation {
                 target: button
-                easing.type: Easing.InOutQuad
-                duration: 100
+                property: "color"
+
+                to: control.WinUI3Style.subtleFillColorTertiary
+
+                duration: internal.colorTransitionsDuration
+
+                easing.type: Easing.OutQuad
             }
         },
         Transition {
-            from: "*"
-            to: "HOVERED"
+            to: "hovered"
 
             ColorAnimation {
                 target: button
-                easing.type: Easing.InOutQuad
-                duration: 100
+                property: "color"
+
+                to: control.WinUI3Style.subtleFillColorSecondary
+
+                duration: internal.colorTransitionsDuration
+
+                easing.type: Easing.OutQuad
             }
         }
     ]
@@ -128,17 +129,16 @@ T.ToolButton {
     QtObject {
         id: internal
 
-        function contentColor() {
+        readonly property int colorTransitionsDuration: 100
+
+        readonly property color contentColor: {
             if (!control.enabled)
-                return control.WinUI3Style.accentFillColorDisabled
+                return (highlighted) ? control.WinUI3Style.textOnAccentFillColorDisabled : control.WinUI3Style.textFillColorDisabled
 
             if (control.down)
-                return control.WinUI3Style.accentFillColorTertiary
+                return (highlighted) ? control.WinUI3Style.textOnAccentFillColorSecondary : control.WinUI3Style.textFillColorSecondary
 
-            if (control.highlighted)
-                return control.WinUI3Style.accentFillColorSecondary
-
-            return control.WinUI3Style.accentFillColorPrimary
+            return (highlighted) ? control.WinUI3Style.textOnAccentFillColorPrimary : control.WinUI3Style.textFillColorPrimary
         }
     }
 }
