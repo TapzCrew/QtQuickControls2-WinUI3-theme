@@ -11,7 +11,7 @@ env:
   QT_VERSION: 6.3.1
 jobs:
   build:
-    name: ${{ matrix.os.name }} (${{ matrix.os.compiler }} ${{ matrix.kind }}, ${{ matrix.mode }} )
+    name: ${{ matrix.os.name }} (${{ matrix.mode }})
     runs-on: ${{ matrix.os.value }}
     strategy:
       fail-fast: false
@@ -21,12 +21,11 @@ jobs:
             artifact: "Windows-x64"
             value: windows-latest
             triplet: x64-windows
-        kind:
-          - shared
         mode:
           - release
           - debug
           - asan
+          - releasedbg
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -107,7 +106,7 @@ jobs:
               set(VS_RUNTIME "MDd")
           endif()
 
-          execute_process(COMMAND xmake f -vD --yes -m ${{ matrix.mode }} -k ${{ matrix.kind }} --vs_runtime=${VS_RUNTIME} --qt=qt RESULT_VARIABLE result)
+          execute_process(COMMAND xmake f -vD --yes -m ${{ matrix.mode }} --vs_runtime=${VS_RUNTIME} --qt=qt RESULT_VARIABLE result)
           if (NOT result EQUAL 0)
             string(REGEX MATCH "FAILED:.*$" error_message "${output}")
             string(REPLACE "\n" "%0A" error_message "${error_message}")
@@ -140,5 +139,5 @@ jobs:
         id: upload
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ matrix.os.name }}-${{ matrix.kind }}-${{ matrix.mode }}
+          name: QQC2-Windows11-Theme-${{ matrix.mode }}
           path: ./qtquick-controls2-winui3-theme-output

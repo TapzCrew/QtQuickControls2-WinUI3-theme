@@ -1,8 +1,8 @@
 set_xmakever("2.6.3")
 set_project("QQC2-WinUI3Style")
 
-add_rules("mode.debug", "mode.release", "mode.releasedbg")
-set_allowedmodes("debug", "release", "releasedbg")
+add_rules("mode.debug", "mode.release", "mode.releasedbg", "mode.asan")
+set_allowedmodes("debug", "release", "releasedbg", "asan")
 set_allowedplats("windows", "mingw")
 set_allowedarchs("windows|x64", "mingw|x86_64")
 
