@@ -59,7 +59,7 @@ QColor getSystemColor(winrt::Windows::UI::ViewManagement::UIColorType win_color)
 /////////////////////////////////////
 /////////////////////////////////////
 constexpr QRgb qquickwinui3_light_color(WinUI3Style::SystemColor role) {
-    constexpr auto colors = std::array<QRgb, 72> {
+    constexpr auto colors = std::array<QRgb, 73> {
         0xE4000000, // TextFillColorPrimary
         0x9E000000, // TextFillColorSecondary
         0x72000000, // TextFillColorTertiary
@@ -139,6 +139,7 @@ constexpr QRgb qquickwinui3_light_color(WinUI3Style::SystemColor role) {
         0x40FFFFFF, // LayerOnAcrylicFillColorDefault
         0x40FFFFFF, // LayerOnAccentAcrylicFillColorDefault
 
+        0xFFF3F3F3, // SolidBackgroundFillColorBase
         0xFFEEEEEE, // SolidBackgroundFillColorSecondary
         0xFFF9F9F9, // SolidBackgroundFillColorTertiary
         0xFFFFFFFF, // SolidBackgroundFillColorQuarternary
@@ -163,7 +164,7 @@ constexpr QRgb qquickwinui3_light_color(WinUI3Style::SystemColor role) {
 /////////////////////////////////////
 /////////////////////////////////////
 constexpr QRgb qquickwinui3_dark_color(WinUI3Style::SystemColor role) {
-    constexpr auto colors = std::array<QRgb, 72> {
+    constexpr auto colors = std::array<QRgb, 73> {
         0xDDFFFFFF, // TextFillColorPrimary
         0xC5FFFFFF, // TextFillColorSecondary
         0x87FFFFFF, // TextFillColorTertiary
@@ -241,6 +242,7 @@ constexpr QRgb qquickwinui3_dark_color(WinUI3Style::SystemColor role) {
         0x09FFFFFF, // LayerOnAcrylicFillColorDefault
         0x09FFFFFF, // LayerOnAccentAcrylicFillColorDefault
 
+        0xFF202020, // SolidBackgroundFillColorBase
         0xFF1C1C1C, // SolidBackgroundFillColorSecondary
         0xFF282828, // SolidBackgroundFillColorTertiary
         0xFF2C2C2C, // SolidBackgroundFillColorQuarternary

@@ -381,6 +381,12 @@ inline QColor WinUI3Style::layerOnAccentAcrylicFillColorDefault() const noexcept
 
 /////////////////////////////////////
 /////////////////////////////////////
+inline QColor WinUI3Style::solidBackgroundFillColorBase() const noexcept {
+    return systemColor(SystemColor::SolidBackgroundFillColorBase);
+}
+
+/////////////////////////////////////
+/////////////////////////////////////
 inline QColor WinUI3Style::solidBackgroundFillColorSecondary() const noexcept {
     return systemColor(SystemColor::SolidBackgroundFillColorSecondary);
 }

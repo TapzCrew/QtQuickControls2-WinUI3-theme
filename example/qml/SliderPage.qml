@@ -4,6 +4,8 @@ import QtQuick.Layouts 6.3
 
 import WinUI3Style 1.0
 
+import "." as App
+
 Frame {
     id: root
 
@@ -39,6 +41,8 @@ Frame {
                 contentHeight: contentItem.childrenRect.height
 
                 boundsBehavior: Flickable.StopAtBounds
+
+                clip: true
 
                 ColumnLayout {
                     spacing: 16
@@ -78,7 +82,7 @@ Frame {
                             font.pixelSize: 20
                         }
 
-                        Pane {
+                        App.ControlPane {
                             Layout.fillWidth: true
 
                             RowLayout {
@@ -115,7 +119,7 @@ Frame {
                             font.pixelSize: 20
                         }
 
-                        Pane {
+                        App.ControlPane {
                             Layout.fillWidth: true
 
                             RowLayout {
@@ -152,7 +156,7 @@ Frame {
                             font.pixelSize: 20
                         }
 
-                        Pane {
+                        App.ControlPane {
                             Layout.fillWidth: true
 
                             RowLayout {

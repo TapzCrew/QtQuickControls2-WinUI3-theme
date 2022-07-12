@@ -41,6 +41,8 @@ Frame {
 
                 boundsBehavior: Flickable.StopAtBounds
 
+                clip: true
+
                 ColumnLayout {
                     spacing: 16
 

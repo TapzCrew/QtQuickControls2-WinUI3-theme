@@ -146,6 +146,8 @@ class WinUI3Style: public QQuickAttachedObject {
     Q_PROPERTY(QColor layerOnAccentAcrylicFillColorDefault READ layerOnAccentAcrylicFillColorDefault
                    NOTIFY paletteChanged FINAL)
 
+    Q_PROPERTY(QColor solidBackgroundFillColorBase READ solidBackgroundFillColorBase NOTIFY
+                   paletteChanged FINAL)
     Q_PROPERTY(QColor solidBackgroundFillColorSecondary READ solidBackgroundFillColorSecondary
                    NOTIFY paletteChanged FINAL)
     Q_PROPERTY(QColor solidBackgroundFillColorTertiary READ solidBackgroundFillColorTertiary NOTIFY
@@ -333,6 +335,7 @@ class WinUI3Style: public QQuickAttachedObject {
         LayerOnAcrylicFillColorDefault,
         LayerOnAccentAcrylicFillColorDefault,
 
+        SolidBackgroundFillColorBase,
         SolidBackgroundFillColorSecondary,
         SolidBackgroundFillColorTertiary,
         SolidBackgroundFillColorQuarternary,
@@ -458,6 +461,7 @@ class WinUI3Style: public QQuickAttachedObject {
     QColor layerOnAcrylicFillColorDefault() const noexcept;
     QColor layerOnAccentAcrylicFillColorDefault() const noexcept;
 
+    QColor solidBackgroundFillColorBase() const noexcept;
     QColor solidBackgroundFillColorSecondary() const noexcept;
     QColor solidBackgroundFillColorTertiary() const noexcept;
     QColor solidBackgroundFillColorQuarternary() const noexcept;
