@@ -35,8 +35,6 @@ Frame {
             Flickable {
                 anchors.fill: parent
 
-                clip: true
-
                 contentWidth: contentItem.childrenRect.width
                 contentHeight: contentItem.childrenRect.height
 
@@ -55,6 +53,18 @@ Frame {
                         Layout.rightMargin: 12
 
                         wrapMode: Text.WordWrap
+                    }
+
+                    Label {
+                        text: "from QtQuick.Controls"
+
+                        Layout.fillWidth: true
+                        Layout.rightMargin: 12
+
+                        wrapMode: Text.WordWrap
+
+                        font.pixelSize: 12
+                        font.family: "Segoe UI Light"
                     }
 
                     ColumnLayout {

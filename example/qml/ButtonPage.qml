@@ -32,8 +32,6 @@ Frame {
             Layout.alignment: Qt.AlignLeft | Qt.AlignTop
             Layout.fillWidth: true
 
-            clip: true
-
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
             Flickable {
@@ -57,6 +55,19 @@ Frame {
                         Layout.rightMargin: 12
 
                         wrapMode: Text.WordWrap
+                    }
+
+                    Label {
+                        text: "from QtQuick.Controls"
+
+                        Layout.fillWidth: true
+                        Layout.rightMargin: 12
+
+                        wrapMode: Text.WordWrap
+
+                        font.pixelSize: 12
+                        font.weight: 350
+                        font.family: "Segoe UI Light"
                     }
 
                     ColumnLayout {

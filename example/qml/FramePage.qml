@@ -16,6 +16,12 @@ Frame {
         id: main_layout
         anchors.fill: parent
 
+        Label {
+            text: "Frame"
+            font.pixelSize: 28
+            font.family: "Segoe UI Semibold"
+        }
+
         ScrollView {
             id: scroll_view
 
@@ -24,8 +30,6 @@ Frame {
             Layout.fillHeight: true
             Layout.alignment: Qt.AlignLeft | Qt.AlignTop
             Layout.fillWidth: true
-
-            clip: true
 
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
@@ -42,11 +46,6 @@ Frame {
 
                     width: Math.max(scroll_view.implicitWidth,
                                     scroll_view.availableWidth)
-                    Label {
-                        text: "Frame"
-                        font.pixelSize: 28
-                        font.family: "Segoe UI Semibold"
-                    }
 
                     Label {
                         text: "Frame is used to layout a logical group of controls together, within a visual frame."
@@ -55,6 +54,18 @@ Frame {
                         Layout.rightMargin: 12
 
                         wrapMode: Text.WordWrap
+                    }
+
+                    Label {
+                        text: "from QtQuick.Controls"
+
+                        Layout.fillWidth: true
+                        Layout.rightMargin: 12
+
+                        wrapMode: Text.WordWrap
+
+                        font.pixelSize: 12
+                        font.family: "Segoe UI Light"
                     }
 
                     Frame {
