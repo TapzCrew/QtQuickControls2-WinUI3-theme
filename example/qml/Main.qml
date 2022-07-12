@@ -120,6 +120,10 @@ MicaApplicationWindow {
                 title: "DropDownButton"
                 source: "qrc:/qml/DropDownButtonPage.qml"
             }
+            ListElement {
+                title: "HyperLinkButton"
+                source: "qrc:/qml/HyperLinkButtonPage.qml"
+            }
                 title: "CheckBox"
                 source: "qrc:/qml/CheckBoxPage.qml"
             }

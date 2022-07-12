@@ -4,5 +4,6 @@
         <file>qml/FluentSystemIcons.js</file>
         <file>qml/MainStackView.qml</file>
         <file>qml/DropDownButton.qml</file>
+        <file>qml/HyperLinkButton.qml</file>
     </qresource>
 </RCC>

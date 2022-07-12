@@ -7,5 +7,6 @@
         <file>qml/FramePage.qml</file>
         <file>qml/SliderPage.qml</file>
         <file>qml/DropDownButtonPage.qml</file>
+        <file>qml/HyperLinkButtonPage.qml</file>
     </qresource>
 </RCC>
