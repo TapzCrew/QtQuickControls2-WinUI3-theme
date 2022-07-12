@@ -42,6 +42,9 @@ T.Button {
         id: gradient
         radius: 4
 
+        implicitHeight: 34
+        implicitWidth: 64
+
         property color backColor: (highlighted) ? (control.WinUI3Style.theme !== WinUI3Style.Theme.Dark) ? WinUI3Style.color(WinUI3Style.Color.Accent) : WinUI3Style.color(WinUI3Style.Color.AccentLight2) : control.WinUI3Style.controlStrokeColorDefault
         property color frontColor: (highlighted) ? (control.WinUI3Style.theme !== WinUI3Style.Theme.Dark) ? WinUI3Style.color(WinUI3Style.Color.AccentDark2) : WinUI3Style.color(WinUI3Style.Color.AccentLight1) : control.WinUI3Style.controlStrokeColorSecondary
 
