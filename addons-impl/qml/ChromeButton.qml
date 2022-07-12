@@ -23,6 +23,8 @@ Item {
     property int button_type: ChromeButton.Type.Close
     property bool darkThemeEnabled: false
 
+    property bool useSystemFocusVisuals: true
+
     width: 48
     height: 31
 

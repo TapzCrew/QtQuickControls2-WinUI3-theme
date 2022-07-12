@@ -22,6 +22,8 @@ T.ToolButton {
 
     icon.color: internal.contentColor()
 
+    property bool useSystemFocusVisuals: true
+
     contentItem: IconLabel {
         spacing: control.spacing
         mirrored: control.mirrored

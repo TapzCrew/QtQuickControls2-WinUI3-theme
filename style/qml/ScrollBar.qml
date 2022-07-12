@@ -23,6 +23,8 @@ T.ScrollBar {
     leftPadding: internal.idleLeftPadding
     rightPadding: internal.idleRightPadding
 
+    property bool useSystemFocusVisuals: true
+
     Triangle {
         id: up_arrow
 

@@ -23,6 +23,7 @@ T.ToolButton {
     icon.color: internal.contentColor()
 
     property string link: ""
+    property bool useSystemFocusVisuals: true
 
     onClicked: Qt.openUrlExternally(link)
 
