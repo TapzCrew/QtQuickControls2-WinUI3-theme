@@ -100,12 +100,7 @@ jobs:
         id: confandbuild
         shell: cmake -P {0}
         run: |
-          set(VS_RUNTIME "MD")
-          if(${{ matrix.mode}} STREQUAL "debug")
-              set(VS_RUNTIME "MDd")
-          endif()
-
-          execute_process(COMMAND xmake f -vD --yes -m ${{ matrix.mode }} --vs_runtime=${VS_RUNTIME} --qt=qt RESULT_VARIABLE result)
+          execute_process(COMMAND xmake f -v --yes -m ${{ matrix.mode }} --qt=qt RESULT_VARIABLE result)
           if (NOT result EQUAL 0)
             string(REGEX MATCH "FAILED:.*$" error_message "${output}")
             string(REPLACE "\n" "%0A" error_message "${error_message}")
@@ -113,7 +108,7 @@ jobs:
             message(FATAL_ERROR "Build failed")
           endif()
 
-          execute_process(COMMAND xmake b -vD RESULT_VARIABLE result)
+          execute_process(COMMAND xmake b -v RESULT_VARIABLE result)
           if (NOT result EQUAL 0)
             string(REGEX MATCH "FAILED:.*$" error_message "${output}")
             string(REPLACE "\n" "%0A" error_message "${error_message}")
@@ -126,7 +121,7 @@ jobs:
         shell: cmake -P {0}
         run: |
           file(MAKE_DIRECTORY qtquick-controls2-winui3-theme-output)
-          execute_process(COMMAND xmake install -vD --installdir=$ENV{GITHUB_WORKSPACE}/qtquick-controls2-winui3-theme-output RESULT_VARIABLE result)
+          execute_process(COMMAND xmake install -v --installdir=$ENV{GITHUB_WORKSPACE}/qtquick-controls2-winui3-theme-output RESULT_VARIABLE result)
           if (NOT result EQUAL 0)
             string(REGEX MATCH "FAILED:.*$" error_message "${output}")
             string(REPLACE "\n" "%0A" error_message "${error_message}")
