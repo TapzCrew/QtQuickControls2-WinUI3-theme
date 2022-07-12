@@ -30,12 +30,12 @@ Frame {
             Layout.alignment: Qt.AlignLeft | Qt.AlignTop
             Layout.fillWidth: true
 
-            clip: true
-
             ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
 
             Flickable {
                 anchors.fill: parent
+
+                clip: true
 
                 contentWidth: contentItem.childrenRect.width
                 contentHeight: contentItem.childrenRect.height

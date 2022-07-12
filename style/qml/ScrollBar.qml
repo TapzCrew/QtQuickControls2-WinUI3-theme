@@ -20,6 +20,8 @@ T.ScrollBar {
 
     topPadding: internal.arrowHeight
     bottomPadding: internal.arrowHeight
+    leftPadding: internal.idleLeftPadding
+    rightPadding: internal.idleRightPadding
 
     Triangle {
         id: up_arrow
@@ -76,11 +78,6 @@ T.ScrollBar {
     }
 
     contentItem: Rectangle {
-        implicitWidth: internal.idleWidth
-        implicitHeight: internal.idleWidth
-
-        x: control.width - width - 3
-
         radius: 6
 
         visible: parent.visible && control.size < 1.0
@@ -106,6 +103,7 @@ T.ScrollBar {
             name: "idle"
             when: !control.hovered
         },
+
         State {
             name: "hovered"
             when: control.hovered
@@ -122,18 +120,23 @@ T.ScrollBar {
                 }
 
                 ParallelAnimation {
-                    SmoothedAnimation {
-                        targets: [control.contentItem]
-                        property: "width"
-                        from: internal.hoveredWidth
-                        to: internal.idleWidth
-                        velocity: 50
+                    NumberAnimation {
+                        targets: [control]
+                        property: "leftPadding"
+                        to: internal.idleLeftPadding
+                        duration: internal.animationDuration
                     }
-                    SmoothedAnimation {
+                    NumberAnimation {
+                        targets: [control]
+                        property: "rightPadding"
+                        to: internal.idleRightPadding
+                        duration: internal.animationDuration
+                    }
+                    NumberAnimation {
                         targets: [control.background, up_arrow, down_arrow]
                         property: "opacity"
                         to: 0.0
-                        duration: 100
+                        duration: internal.animationDuration
                     }
                 }
             }
@@ -146,17 +149,23 @@ T.ScrollBar {
                     duration: 500
                 }
                 ParallelAnimation {
-                    SmoothedAnimation {
-                        targets: [control.contentItem]
-                        property: "width"
-                        to: internal.hoveredWidth
-                        velocity: 50
+                    NumberAnimation {
+                        targets: [control]
+                        property: "leftPadding"
+                        to: internal.hoveredLeftPadding
+                        duration: internal.animationDuration
                     }
-                    SmoothedAnimation {
+                    NumberAnimation {
+                        targets: [control]
+                        property: "rightPadding"
+                        to: internal.hoveredRightPadding
+                        duration: internal.animationDuration
+                    }
+                    NumberAnimation {
                         targets: [control.background, up_arrow, down_arrow]
                         property: "opacity"
                         to: 1.0
-                        duration: 100
+                        duration: internal.animationDuration
                     }
                 }
             }
@@ -167,8 +176,18 @@ T.ScrollBar {
         id: internal
 
         readonly property real idleWidth: 2
+
+        readonly property real idleLeftPadding: backgroundWidth - idleWidth - 3
+        readonly property real idleRightPadding: 3
+
         readonly property real hoveredWidth: 6
+
+        readonly property real hoveredLeftPadding: backgroundWidth - hoveredWidth - 3
+        readonly property real hoveredRightPadding: 3
+
         readonly property real backgroundWidth: 12
         readonly property real arrowHeight: 14
+
+        readonly property real animationDuration: 100
     }
 }
