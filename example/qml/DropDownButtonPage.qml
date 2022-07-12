@@ -3,6 +3,7 @@ import QtQuick.Controls 6.3
 import QtQuick.Layouts 6.3
 
 import WinUI3Style 1.0
+import WinUI3Style.Addons 1.0
 
 Frame {
     id: root
@@ -18,7 +19,7 @@ Frame {
         anchors.fill: parent
 
         Label {
-            text: "Button"
+            text: "DropDownButton"
             font.pixelSize: 28
             font.family: "Segoe UI Semibold"
         }
@@ -49,7 +50,7 @@ Frame {
                                     scroll_view.availableWidth)
 
                     Label {
-                        text: "Button presents a push-button that can be pushed or clicked by the user." + " Buttons are normally used to perform an action, or to answer a question."
+                        text: "A control that drops down a flyout of choices from which on can be chosen."
 
                         Layout.fillWidth: true
                         Layout.rightMargin: 12
@@ -58,12 +59,10 @@ Frame {
                     }
 
                     Label {
-                        text: "from QtQuick.Controls"
+                        text: "from WinUI3Style.Addons"
 
                         Layout.fillWidth: true
                         Layout.rightMargin: 12
-
-                        wrapMode: Text.WordWrap
 
                         font.pixelSize: 12
                         font.family: "Segoe UI Light"
@@ -74,7 +73,7 @@ Frame {
                         Layout.rightMargin: 12
 
                         Label {
-                            text: "A simple Button with text content."
+                            text: "Simple DropDownButton"
 
                             font.family: "Segoe UI Semibold"
                             font.pixelSize: 20
@@ -86,19 +85,20 @@ Frame {
                             RowLayout {
                                 anchors.fill: parent
 
-                                Button {
-                                    text: "Button 1"
+                                DropDownButton {
+                                    text: "Email"
 
                                     Layout.alignment: Qt.AlignVCenter
 
-                                    onClicked: label_btn_1.text = "Output:\nYou clicked: Button1"
-                                }
-
-                                Label {
-                                    id: label_btn_1
-                                    text: "Output:"
-
-                                    Layout.alignment: Qt.AlignRight
+                                    MenuItem {
+                                        text: "Send"
+                                    }
+                                    MenuItem {
+                                        text: "Reply"
+                                    }
+                                    MenuItem {
+                                        text: "Reply All"
+                                    }
                                 }
                             }
                         }
@@ -109,7 +109,7 @@ Frame {
                         Layout.rightMargin: 12
 
                         Label {
-                            text: "A disabled Button with text content."
+                            text: "DropDownButton with Icons"
 
                             font.family: "Segoe UI Semibold"
                             font.pixelSize: 20
@@ -121,48 +121,27 @@ Frame {
                             RowLayout {
                                 anchors.fill: parent
 
-                                Button {
-                                    text: "Button 2"
-
-                                    enabled: false
-
-                                    Layout.alignment: Qt.AlignVCenter
-                                }
-                            }
-                        }
-                    }
-
-                    ColumnLayout {
-                        Layout.fillWidth: true
-                        Layout.rightMargin: 12
-
-                        Label {
-                            text: "A Highlighted Button with text content."
-
-                            font.family: "Segoe UI Semibold"
-                            font.pixelSize: 20
-                        }
-
-                        Pane {
-                            Layout.fillWidth: true
-
-                            RowLayout {
-                                anchors.fill: parent
-
-                                Button {
-                                    text: "Button 3"
-                                    highlighted: true
+                                DropDownButton {
+                                    font.family: WinUI3Style.iconFont
+                                    text: String.fromCodePoint(0xe715)
 
                                     Layout.alignment: Qt.AlignVCenter
 
-                                    onClicked: label_btn_2.text = "Output:\nYou clicked: Button3"
-                                }
-
-                                Label {
-                                    id: label_btn_2
-                                    text: "Output:"
-
-                                    Layout.alignment: Qt.AlignRight
+                                    MenuItem {
+                                        font.family: WinUI3Style.iconFont
+                                        text: String.fromCodePoint(
+                                                  0xe725) + "  Send"
+                                    }
+                                    MenuItem {
+                                        font.family: WinUI3Style.iconFont
+                                        text: String.fromCodePoint(
+                                                  0xe8ca) + "  Reply"
+                                    }
+                                    MenuItem {
+                                        font.family: WinUI3Style.iconFont
+                                        text: String.fromCodePoint(
+                                                  0xe8c2) + "  Reply All"
+                                    }
                                 }
                             }
                         }

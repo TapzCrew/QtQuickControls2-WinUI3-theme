@@ -117,6 +117,9 @@ MicaApplicationWindow {
                 source: "qrc:/qml/ButtonPage.qml"
             }
             ListElement {
+                title: "DropDownButton"
+                source: "qrc:/qml/DropDownButtonPage.qml"
+            }
                 title: "CheckBox"
                 source: "qrc:/qml/CheckBoxPage.qml"
             }

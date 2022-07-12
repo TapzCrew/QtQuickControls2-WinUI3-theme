@@ -11,3 +11,4 @@ depends WinUI3StylePluginImpl auto
 prefer :/qml/
 MicaApplicationWindow 1.0 MicaApplicationWindow.qml
 MainStackView 1.0 MainStackView.qml
+DropDownButton 1.0 DropDownButton.qml

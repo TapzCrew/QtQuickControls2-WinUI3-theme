@@ -6,5 +6,6 @@
         <file>qml/CheckBoxPage.qml</file>
         <file>qml/FramePage.qml</file>
         <file>qml/SliderPage.qml</file>
+        <file>qml/DropDownButtonPage.qml</file>
     </qresource>
 </RCC>

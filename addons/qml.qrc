@@ -3,5 +3,6 @@
         <file>qml/MicaApplicationWindow.qml</file>
         <file>qml/FluentSystemIcons.js</file>
         <file>qml/MainStackView.qml</file>
+        <file>qml/DropDownButton.qml</file>
     </qresource>
 </RCC>
