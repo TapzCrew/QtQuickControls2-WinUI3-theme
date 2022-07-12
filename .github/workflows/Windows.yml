@@ -100,7 +100,7 @@ jobs:
         id: confandbuild
         shell: cmake -P {0}
         run: |
-          execute_process(COMMAND xmake f -vD --yes -m ${{ matrix.mode }} --qt=qt RESULT_VARIABLE result) --ccache=n
+          execute_process(COMMAND xmake f -vD --yes -m ${{ matrix.mode }} --qt=qt --ccache=n RESULT_VARIABLE result)
           if (NOT result EQUAL 0)
             string(REGEX MATCH "FAILED:.*$" error_message "${output}")
             string(REPLACE "\n" "%0A" error_message "${error_message}")
