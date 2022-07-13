@@ -15,4 +15,4 @@ target("WinUI3Style-example")
                    "QtQuickControls2")
 
     set_values("qt.deploy.qmldir", "qml/")
-    set_values("qt.deploy.flags", "--no-translations", "--no-virtualkeyboard", "--no-opengl-sw")
+    set_values("qt.deploy.flags", "--no-translations", "--no-virtualkeyboard")
