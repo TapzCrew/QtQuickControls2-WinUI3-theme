@@ -125,6 +125,10 @@ MicaApplicationWindow {
                 source: "qrc:/qml/HyperLinkButtonPage.qml"
             }
             ListElement {
+                title: "RepeatButton"
+                source: "qrc:/qml/RepeatButtonPage.qml"
+            }
+            ListElement {
                 title: "ToggleButton"
                 source: "qrc:/qml/ToggleButtonPage.qml"
             }
