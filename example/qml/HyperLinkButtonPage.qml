@@ -15,6 +15,8 @@ Frame {
     rightPadding: 0
     bottomPadding: 0
 
+    property var push
+
     ColumnLayout {
         id: main_layout
 
@@ -107,6 +109,49 @@ Frame {
 
                                     CheckBox {
                                         id: checkbox
+
+                                        text: "Disable hyperlink button"
+
+                                        checked: false
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        Layout.rightMargin: 12
+
+                        Label {
+                            text: "A hyperlink button with onClicked event"
+
+                            font.family: "Segoe UI Semibold"
+                            font.pixelSize: 20
+                        }
+
+                        App.ControlPane {
+                            Layout.fillWidth: true
+
+                            RowLayout {
+                                anchors.fill: parent
+
+                                HyperLinkButton {
+                                    text: "Go to ToggleButton"
+
+                                    Layout.alignment: Qt.AlignVCenter
+
+                                    enabled: !checkbox2.checked
+
+                                    onClicked: push(4)
+                                }
+
+                                Frame {
+                                    Layout.fillHeight: true
+                                    Layout.alignment: Qt.AlignRight
+
+                                    CheckBox {
+                                        id: checkbox2
 
                                         text: "Disable hyperlink button"
 

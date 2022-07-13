@@ -15,6 +15,7 @@ Frame {
     rightPadding: 0
     bottomPadding: 0
 
+    property var push
     ColumnLayout {
         id: main_layout
 
@@ -136,6 +137,9 @@ Frame {
                                         text: String.fromCodePoint(
                                                   0xe725) + "  Send"
                                     }
+
+                                    MenuSeparator {}
+
                                     MenuItem {
                                         font.family: WinUI3Style.iconFont
                                         text: String.fromCodePoint(

@@ -2,6 +2,7 @@ import QtQuick 6.3
 import QtQuick.Controls 6.3
 
 Frame {
+    property var push
     Label {
         anchors.centerIn: parent
 

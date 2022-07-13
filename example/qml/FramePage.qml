@@ -12,6 +12,7 @@ Frame {
     rightPadding: 0
     bottomPadding: 0
 
+    property var push
     ColumnLayout {
         id: main_layout
         anchors.fill: parent

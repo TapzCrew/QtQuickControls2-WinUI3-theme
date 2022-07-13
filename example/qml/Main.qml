@@ -95,18 +95,7 @@ MicaApplicationWindow {
 
             highlighted: ListView.isCurrentItem
 
-            onClicked: {
-                if (list_view.currentIndex === index)
-                    return
-
-                stack_indices.push(index)
-                list_view.currentIndex = index
-
-                stack_view.push(model.source)
-
-                if (!window.showSideMenu)
-                    window.closeSideMenu()
-            }
+            onClicked: window.stackViewPush(index)
         }
 
         model: ListModel {
@@ -133,6 +122,10 @@ MicaApplicationWindow {
                 source: "qrc:/qml/ToggleButtonPage.qml"
             }
             ListElement {
+                title: "SplitButton"
+                source: "qrc:/qml/SplitButtonPage.qml"
+            }
+            ListElement {
                 title: "CheckBox"
                 source: "qrc:/qml/CheckBoxPage.qml"
             }
@@ -154,6 +147,23 @@ MicaApplicationWindow {
 
         anchors.fill: parent
 
-        initialItem: App.MainPage {}
+        initialItem: App.MainPage {
+            push: window.push
+        }
+    }
+
+    function stackViewPush(index) {
+        if (list_view.currentIndex === index)
+            return
+
+        stack_indices.push(index)
+        list_view.currentIndex = index
+
+        stack_view.push(model.get(index).source, {
+                            "push": stackViewPush
+                        })
+
+        if (!window.showSideMenu)
+            window.closeSideMenu()
     }
 }
