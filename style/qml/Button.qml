@@ -171,7 +171,7 @@ T.Button {
                                                          || control.checked) ? control.WinUI3Style.accentFillColorSecondary : control.WinUI3Style.controlFillColorSecondary
 
         readonly property color borderColor: (control.highlighted
-                                              || control.checked) ? (!control.enabled) ? "transparent" : control.WinUI3Style.accentFillColorPrimary : ((control.WinUI3Style.theme === WinUI3Style.Theme.Light && !down && !(highlighted || checked)) || !control.enabled) ? "transparent" : control.WinUI3Style.controlStrokeColorDefault
+                                              || control.checked) ? (!control.enabled) ? "transparent" : control.WinUI3Style.accentFillColorPrimary : ((control.WinUI3Style.theme === WinUI3Style.Theme.Light && !down && !(highlighted || checked)) || !control.enabled) ? "transparent" : control.WinUI3Style.controlStrokeColorSecondary
 
         readonly property int colorTransitionsDuration: 100
 
