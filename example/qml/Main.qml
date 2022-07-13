@@ -128,6 +128,7 @@ MicaApplicationWindow {
                 title: "ToggleButton"
                 source: "qrc:/qml/ToggleButtonPage.qml"
             }
+            ListElement {
                 title: "CheckBox"
                 source: "qrc:/qml/CheckBoxPage.qml"
             }
