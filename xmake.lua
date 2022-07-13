@@ -33,3 +33,5 @@ if is_plat("windows") then
     add_cxflags("/wd4251") -- Disable warning: class needs to have dll-interface to be used by clients of class blah blah blah
     add_cxflags("/wd4297")
 end
+
+set_values("qt.deploy.flags", "--no-translations", "--no-virtualkeyboard")
