@@ -123,7 +123,7 @@ auto MicaApplicationWindowPrivate::relayout() -> void {
 
     content->setX((persistant) ? drawer->width() : 0);
     content->setY(q->contentPosition());
-    content->setWidth(width);
+    content->setWidth((persistant) ? width - drawer->width() : width);
     content->setHeight(q->height() - q->contentPosition() - footer_height);
 
     layoutItem(title_bar, 0, close_button ? width - close_button->width() * 3 : width);
