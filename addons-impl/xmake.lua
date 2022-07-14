@@ -14,6 +14,9 @@ target("QQC2-WinUI3StyleAddonsImpl")
     set_values("qt.qmlplugin.import_name", "WinUI3Style.Addons.Impl")
     set_values("qt.qmlplugin.qmldirfile", "qml/qmldir")
 
+    add_includedirs("src/", "$(buildir)")
+
+
     add_syslinks("dwmapi")
 
     add_frameworks("QtCore",
@@ -25,7 +28,9 @@ target("QQC2-WinUI3StyleAddonsImpl")
     add_frameworks("QtCoreprivate",
                    "QtGuiprivate",
                    "QtQuickprivate",
+                   "QtQuickLayoutsprivate",
                    "QtQmlprivate",
+                   "QtQuickControls2private",
                    "QtQuickControls2Implprivate",
                    "QtQuickTemplates2private")
 

@@ -25,59 +25,78 @@ MicaApplicationWindow {
 
     property var stack_indices: []
 
-    titlebar: RowLayout {
+    titleBar: Row {
         id: titlebar
 
-        ToolButton {
-            font.family: WinUI3Style.iconFont
-            text: String.fromCodePoint(0xe830)
+        spacing: 6
 
-            enabled: stack_view.depth > 1
+        leftPadding: 4
+        topPadding: 4
 
-            onClicked: {
-                stack_view.pop()
+        Row {
+            spacing: 4
 
-                stack_indices.pop()
-                if (stack_indices.length === 0)
-                    list_view.currentIndex = -1
-                else
-                    list_view.currentIndex = stack_indices[stack_indices.length - 1]
+            ToolButton {
+                font.family: WinUI3Style.iconFont
+                text: String.fromCodePoint(0xe830)
+
+                enabled: stack_view.depth > 1
+
+                onClicked: {
+                    stack_view.pop()
+
+                    stack_indices.pop()
+                    if (stack_indices.length === 0)
+                        list_view.currentIndex = -1
+                    else
+                        list_view.currentIndex = stack_indices[stack_indices.length - 1]
+                }
             }
-        }
 
-        ToolButton {
-            font.family: WinUI3Style.iconFont
-            text: String.fromCodePoint(0xe790)
+            ToolButton {
+                font.family: WinUI3Style.iconFont
+                text: String.fromCodePoint(0xe790)
 
-            onClicked: window.WinUI3Style.theme = (window.WinUI3Style.theme === WinUI3Style.Theme.Dark) ? WinUI3Style.Theme.Light : WinUI3Style.Theme.Dark
-        }
+                onClicked: window.WinUI3Style.theme = (window.WinUI3Style.theme === WinUI3Style.Theme.Dark) ? WinUI3Style.Theme.Light : WinUI3Style.Theme.Dark
+            }
 
-        ToolButton {
-            font.family: WinUI3Style.iconFont
-            text: String.fromCodePoint(0xe700)
+            ToolButton {
+                font.family: WinUI3Style.iconFont
+                text: String.fromCodePoint(0xe700)
 
-            visible: !window.showSideMenu
-            enabled: !window.showSideMenu
+                visible: !window.showSideMenu
+                enabled: !window.showSideMenu
 
-            onClicked: window.openSideMenu()
+                onClicked: window.openSideMenu()
+            }
         }
 
         Label {
             id: window_title
 
             text: window.title
+
+            anchors.verticalCenter: parent.verticalCenter
+
             font.pixelSize: 12
             font.weight: 450
             font.family: "Segoe UI Semibold"
-
-            Layout.leftMargin: 6
-
-            Layout.alignment: Qt.AlignVCenter
         }
     }
 
-    enableSideMenu: true
-    sideMenuContent: ListView {
+    menuBar: MenuBar {
+        Menu {
+            title: "File"
+
+            Action {
+                text: "Close"
+
+                onTriggered: window.close()
+            }
+        }
+    }
+
+    sideMenu: ListView {
         id: list_view
 
         focus: true
@@ -89,7 +108,7 @@ MicaApplicationWindow {
         spacing: 4
 
         delegate: ItemDelegate {
-            width: list_view.width
+            width: list_view.width - 14
 
             text: model.title
 
