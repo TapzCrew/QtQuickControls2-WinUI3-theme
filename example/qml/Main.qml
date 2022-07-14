@@ -22,7 +22,6 @@ MicaApplicationWindow {
     WinUI3Style.theme: WinUI3Style.Theme.Dark
 
     titleBarExpanded: true
-
     property var stack_indices: []
 
     titleBar: Row {
@@ -81,18 +80,6 @@ MicaApplicationWindow {
             font.pixelSize: 12
             font.weight: 450
             font.family: "Segoe UI Semibold"
-        }
-    }
-
-    menuBar: MenuBar {
-        Menu {
-            title: "File"
-
-            Action {
-                text: "Close"
-
-                onTriggered: window.close()
-            }
         }
     }
 
