@@ -21,6 +21,7 @@
 #include <QtGui/QPalette>
 
 #include "WinAddons.mpp"
+#include "qevent.h"
 
 static constexpr auto RESIZE_FRAME_WIDTH      = 8;
 static constexpr auto DEFAULT_TITLE_BAR_SIZE  = 32;
@@ -150,6 +151,8 @@ class MicaApplicationWindow: public QQuickWindowQmlImpl {
     auto classBegin() noexcept -> void override;
     auto componentComplete() noexcept -> void override;
     auto resizeEvent(QResizeEvent *event) noexcept -> void override;
+    auto focusInEvent(QFocusEvent *event) noexcept -> void override;
+    auto focusOutEvent(QFocusEvent *event) noexcept -> void override;
 
   private:
     auto nativeEvent(const QByteArray &eventpeype, void *message, qintptr *result) -> bool override;

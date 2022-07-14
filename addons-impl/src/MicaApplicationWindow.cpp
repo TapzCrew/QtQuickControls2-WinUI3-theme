@@ -794,6 +794,30 @@ auto MicaApplicationWindow::resizeEvent(QResizeEvent *event) noexcept -> void {
 
 /////////////////////////////////////
 /////////////////////////////////////
+auto MicaApplicationWindow::focusInEvent(QFocusEvent *event) noexcept -> void {
+    Q_D(MicaApplicationWindow);
+
+    d->minimize_button->setProperty("active", true);
+    d->maximize_button->setProperty("active", true);
+    d->close_button->setProperty("active", true);
+
+    QQuickWindowQmlImpl::focusInEvent(event);
+}
+
+/////////////////////////////////////
+/////////////////////////////////////
+auto MicaApplicationWindow::focusOutEvent(QFocusEvent *event) noexcept -> void {
+    Q_D(MicaApplicationWindow);
+
+    d->minimize_button->setProperty("active", false);
+    d->maximize_button->setProperty("active", false);
+    d->close_button->setProperty("active", false);
+
+    QQuickWindowQmlImpl::focusOutEvent(event);
+}
+
+/////////////////////////////////////
+/////////////////////////////////////
 auto MicaApplicationWindow::nativeEvent(const QByteArray &type, void *message, qintptr *result)
     -> bool {
     Q_D(MicaApplicationWindow);
