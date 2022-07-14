@@ -10,25 +10,35 @@ import WinUI3Style.Impl 1.0
 T.Button {
     id: control
 
+    implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
+                            implicitContentWidth + leftPadding + rightPadding)
+    implicitHeight: Math.max(
+                        implicitBackgroundHeight + topInset + bottomInset,
+                        implicitContentHeight + topPadding + bottomPadding,
+                        implicitIndicatorHeight + topPadding + bottomPadding)
+
     rightPadding: 12
     leftPadding: 12
     topPadding: 6
     bottomPadding: 6
     spacing: 8
 
-    implicitWidth: Math.max(implicitBackgroundWidth + leftInset + rightInset,
-                            implicitContentWidth + leftPadding + rightPadding)
-    implicitHeight: Math.max(implicitBackgroundHeight + topInset + bottomInset,
-                             implicitContentHeight + topPadding + bottomPadding)
-
-    icon.color: internal.contentColor
+    property Menu menu
 
     property bool useSystemFocusVisuals: true
 
-    default property alias menuItems: menu.contentChildren
+    onMenuChanged: {
+        if (menu) {
+            menu.parent = control
+            menu.y = control.height
+        }
+    }
+
+    onClicked: if (menu)
+                   menu.open()
 
     contentItem: Row {
-        spacing: 12
+        spacing: 10
 
         IconLabel {
             id: label
@@ -56,6 +66,7 @@ T.Button {
             spacing: control.spacing
             display: control.display
 
+            anchors.leftMargin: 14
             anchors.verticalCenter: parent.verticalCenter
 
             color: internal.contentColor
@@ -65,14 +76,6 @@ T.Button {
             font.pixelSize: 12
         }
     }
-
-    Menu {
-        id: menu
-
-        y: control.y + control.height
-    }
-
-    onClicked: menu.open()
 
     background: Rectangle {
         id: gradient

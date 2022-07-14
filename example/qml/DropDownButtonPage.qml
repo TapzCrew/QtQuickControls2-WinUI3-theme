@@ -95,14 +95,16 @@ Frame {
 
                                     Layout.alignment: Qt.AlignVCenter
 
-                                    MenuItem {
-                                        text: "Send"
-                                    }
-                                    MenuItem {
-                                        text: "Reply"
-                                    }
-                                    MenuItem {
-                                        text: "Reply All"
+                                    menu: Menu {
+                                        Action {
+                                            text: "Send"
+                                        }
+                                        Action {
+                                            text: "Reply"
+                                        }
+                                        Action {
+                                            text: "Reply All"
+                                        }
                                     }
                                 }
                             }
@@ -132,23 +134,23 @@ Frame {
 
                                     Layout.alignment: Qt.AlignVCenter
 
-                                    MenuItem {
+                                    menu: Menu {
                                         font.family: WinUI3Style.iconFont
-                                        text: String.fromCodePoint(
-                                                  0xe725) + "  Send"
-                                    }
+                                        Action {
+                                            text: String.fromCodePoint(
+                                                      0xe725) + "  Send"
+                                        }
 
-                                    MenuSeparator {}
+                                        MenuSeparator {}
 
-                                    MenuItem {
-                                        font.family: WinUI3Style.iconFont
-                                        text: String.fromCodePoint(
-                                                  0xe8ca) + "  Reply"
-                                    }
-                                    MenuItem {
-                                        font.family: WinUI3Style.iconFont
-                                        text: String.fromCodePoint(
-                                                  0xe8c2) + "  Reply All"
+                                        Action {
+                                            text: String.fromCodePoint(
+                                                      0xe8ca) + "  Reply"
+                                        }
+                                        Action {
+                                            text: String.fromCodePoint(
+                                                      0xe8c2) + "  Reply All"
+                                        }
                                     }
                                 }
                             }
