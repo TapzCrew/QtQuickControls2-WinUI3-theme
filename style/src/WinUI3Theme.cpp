@@ -8,6 +8,8 @@
 #include <QtGui/QFontInfo>
 #include <QtQuickTemplates2/private/qquicktheme_p.h>
 
+#include <QQuickWindow>
+
 static constexpr auto SEGOE_UI_TEXT_FONT_NAMES = std::array {
     "Segoe UI",
     "Segoe UI Light",
@@ -59,4 +61,11 @@ void WinUI3Theme::initialize(QQuickTheme *theme) {
     tab_button_font.setPixelSize(24);
     tab_button_font.setWeight(QFont::Light);
     theme->setFont(QQuickTheme::TabBar, tab_button_font);
+
+    auto format = QSurfaceFormat::defaultFormat();
+    format.setAlphaBufferSize(8);
+
+    QSurfaceFormat::setDefaultFormat(format);
+    QQuickWindow::setDefaultAlphaBuffer(true);
+    // QQuickWindow::setTextRenderType(QQuickWindow::NativeTextRendering);
 }

@@ -27,19 +27,12 @@ constexpr auto toString(QSGRendererInterface::GraphicsApi e) {
 auto main(int argc, char *argv[]) -> int {
     auto app = QGuiApplication { argc, argv };
 
-    auto format = QSurfaceFormat::defaultFormat();
-    format.setAlphaBufferSize(8);
-
-    QSurfaceFormat::setDefaultFormat(format);
-
-    QQuickWindow::setDefaultAlphaBuffer(true);
+    QQuickStyle::setStyle("WinUI3Style");
 
     auto engine = QQmlApplicationEngine {};
 
     const auto url = QUrl { u"qrc:///qml/Main.qml"_qs };
 
-    QQuickWindow::setDefaultAlphaBuffer(true);
-    QQuickStyle::setStyle("WinUI3Style");
     QObject::connect(
         &engine,
         &QQmlApplicationEngine::objectCreated,
