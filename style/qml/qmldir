@@ -18,3 +18,8 @@ ScrollIndicator 1.0 ScrollIndicator.qml
 ScrollView 1.0 ScrollView.qml
 CheckBox 1.0 CheckBox.qml
 Slider 1.0 Slider.qml
+Menu 1.0 Menu.qml
+MenuSeparator 1.0 MenuSeparator.qml
+MenuItem 1.0 MenuItem.qml
+MenuBar 1.0 MenuBar.qml
+MenuBarItem 1.0 MenuBarItem.qml

@@ -27,15 +27,17 @@ T.Button {
 
     property bool useSystemFocusVisuals: true
 
-    onMenuChanged: {
-        if (menu) {
-            menu.parent = control
-            menu.y = control.height
-        }
-    }
+    onClicked: {
+        var global_coordinates = mapToGlobal(control.x, control.y)
 
-    onClicked: if (menu)
-                   menu.open()
+        if (control.menu)
+            if (global_coordinates.y + control.height + control.menu.height
+                    > Window.window.y + Window.height)
+                menu.popup(control.x,
+                           (control.y + control.height) - control.menu.height)
+            else
+                menu.popup(control.x, control.y + control.height)
+    }
 
     contentItem: Row {
         spacing: 10

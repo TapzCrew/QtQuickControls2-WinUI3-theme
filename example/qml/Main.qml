@@ -143,6 +143,10 @@ MicaApplicationWindow {
                 title: "Slider"
                 source: "qrc:/qml/SliderPage.qml"
             }
+            ListElement {
+                title: "MenuBar"
+                source: "qrc:/qml/MenuBarPage.qml"
+            }
         }
 
         ScrollBar.vertical: ScrollBar {}

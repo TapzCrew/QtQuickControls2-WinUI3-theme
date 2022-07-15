@@ -13,5 +13,10 @@
         <file>qml/ScrollView.qml</file>
         <file>qml/CheckBox.qml</file>
         <file>qml/Slider.qml</file>
+        <file>qml/Menu.qml</file>
+        <file>qml/MenuItem.qml</file>
+        <file>qml/MenuSeparator.qml</file>
+        <file>qml/MenuBar.qml</file>
+        <file>qml/MenuBarItem.qml</file>
     </qresource>
 </RCC>
