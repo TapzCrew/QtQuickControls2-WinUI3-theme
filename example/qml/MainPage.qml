@@ -2,7 +2,10 @@ import QtQuick 6.3
 import QtQuick.Controls 6.3
 
 Frame {
+
     property var push
+    property var menuBarToggle
+
     Label {
         anchors.centerIn: parent
 

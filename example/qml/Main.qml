@@ -83,6 +83,30 @@ MicaApplicationWindow {
         }
     }
 
+    menuBar: MenuBar {
+        id: menubar
+
+        visible: false
+
+        Menu {
+            title: "File"
+
+            Action {
+                text: "Close"
+
+                onTriggered: window.close()
+            }
+        }
+
+        Menu {
+            title: "About"
+
+            Action {
+                text: "About"
+            }
+        }
+    }
+
     sideMenu: ListView {
         id: list_view
 
@@ -170,10 +194,15 @@ MicaApplicationWindow {
         list_view.currentIndex = index
 
         stack_view.push(model.get(index).source, {
-                            "push": stackViewPush
+                            "push": stackViewPush,
+                            "menuBarToggle": menuBarToggle
                         })
 
         if (!window.showSideMenu)
             window.closeSideMenu()
+    }
+
+    function menuBarToggle() {
+        menubar.visible = !menubar.visible
     }
 }

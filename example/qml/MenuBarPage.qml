@@ -15,6 +15,8 @@ Frame {
     bottomPadding: 0
 
     property var push
+    property var menuBarToggle
+
     ColumnLayout {
         id: main_layout
 
@@ -72,6 +74,32 @@ Frame {
 
                         font.pixelSize: 12
                         font.family: "Segoe UI Light"
+                    }
+
+                    ColumnLayout {
+                        Layout.fillWidth: true
+                        Layout.rightMargin: 12
+
+                        Label {
+                            text: "Main MenuBar"
+
+                            font.family: "Segoe UI Semibold"
+                            font.pixelSize: 20
+                        }
+
+                        App.ControlPane {
+                            Layout.fillWidth: true
+
+                            ColumnLayout {
+                                anchors.fill: parent
+
+                                Button {
+                                    text: "Toggle main MenuBar"
+
+                                    onClicked: menuBarToggle()
+                                }
+                            }
+                        }
                     }
 
                     ColumnLayout {

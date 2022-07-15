@@ -31,8 +31,6 @@ T.MenuItem {
     contentItem: Row {
         id: row
 
-        spacing: 14
-
         readonly property real arrowPadding: control.subMenu
                                              && control.arrow ? control.arrow.width
                                                                 + control.spacing : 0
@@ -40,8 +38,12 @@ T.MenuItem {
                                                  && control.indicator ? control.indicator.width
                                                                         + control.spacing : 0
 
+        spacing: 14
+
         IconLabel {
             id: text
+
+            implicitWidth: 34
 
             rightPadding: control.mirrored ? row.indicatorPadding : row.arrowPadding
 
@@ -77,6 +79,7 @@ T.MenuItem {
             font.pixelSize: 12
         }
     }
+
     arrow: IconLabel {
         x: control.mirrored ? control.leftPadding : control.width - width - control.rightPadding
         y: control.topPadding + (control.availableHeight - height) / 2

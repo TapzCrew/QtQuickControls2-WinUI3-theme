@@ -203,14 +203,16 @@ struct MicaApplicationWindowPrivate: public QQuickWindowQmlImplPrivate,
     QQuickItem *content_item            = nullptr;
     QQuickItem *title_bar               = nullptr;
     QQuickItem *menu_bar                = nullptr;
-    QQuickItem *header                  = nullptr;
-    QQuickItem *footer                  = nullptr;
-    QQuickItem *side_menu               = nullptr;
+    std::unique_ptr<QMetaObject::Connection> menu_update_connection;
+    QQuickItem *header    = nullptr;
+    QQuickItem *footer    = nullptr;
+    QQuickItem *side_menu = nullptr;
 
     QQuickItem *minimize_button = nullptr;
     QQuickItem *maximize_button = nullptr;
     QQuickItem *close_button    = nullptr;
-    QQuickDrawer *drawer        = nullptr;
+
+    QQuickDrawer *drawer = nullptr;
 
     QFont font;
     QLocale locale;
@@ -230,7 +232,6 @@ struct MicaApplicationWindowPrivate: public QQuickWindowQmlImplPrivate,
 
     bool inside_relayout = false;
 
-  private:
     Q_DECLARE_PUBLIC(MicaApplicationWindow)
 };
 

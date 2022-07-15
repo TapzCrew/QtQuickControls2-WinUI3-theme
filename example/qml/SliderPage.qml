@@ -15,6 +15,8 @@ Frame {
     bottomPadding: 0
 
     property var push
+    property var menuBarToggle
+
     ColumnLayout {
         anchors.fill: parent
 

@@ -6,6 +6,7 @@
 
 #include <QDebug>
 
+#include <QtCore/QMetaObject>
 #include <QtCore/QScopedValueRollback>
 #include <QtCore/private/qobject_p.h>
 
@@ -483,7 +484,10 @@ auto MicaApplicationWindow::setMenuBar(QQuickItem *menu_bar) noexcept -> void {
     if (d->menu_bar == menu_bar) return;
 
     if (d->menu_bar) {
+        QObject::disconnect(*d->menu_update_connection);
+
         QQuickItemPrivate::get(d->menu_bar)->removeItemChangeListener(d, ITEM_CHANGES);
+
         d->menu_bar->setParentItem(nullptr);
     }
 
@@ -491,6 +495,12 @@ auto MicaApplicationWindow::setMenuBar(QQuickItem *menu_bar) noexcept -> void {
 
     if (menu_bar) {
         menu_bar->setParentItem(QQuickWindow::contentItem());
+        d->menu_update_connection = std::make_unique<QMetaObject::Connection>(
+            QObject::connect(menu_bar, &QQuickItem::visibleChanged, this, [this] {
+                Q_D(MicaApplicationWindow);
+                d->relayout();
+                emit contentPositionChanged(contentPosition());
+            }));
 
         auto p = QQuickItemPrivate::get(menu_bar);
         p->addItemChangeListener(d, ITEM_CHANGES);
